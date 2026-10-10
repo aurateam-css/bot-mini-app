@@ -17,22 +17,18 @@
     --bg-1:#0d0e10;
     --bg-2:#16171a;
     --bg-3:#1f2024;
-
     --border:rgba(255,255,255,.06);
     --border-2:rgba(255,255,255,.1);
     --border-3:rgba(255,255,255,.16);
-
     --text:#f7f8f8;
     --text-2:#8a8f98;
     --text-3:#5c6068;
     --text-4:#3e4048;
-
     --accent:#5e6ad2;
     --accent-2:#7c85e0;
     --green:#4cb782;
     --amber:#e5a75c;
     --red:#e5484d;
-
     --r:10px;
     --r-sm:7px;
   }
@@ -45,7 +41,6 @@
     background:var(--bg);
     color:var(--text);
     -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
     font-size:14px;
     line-height:1.5;
     user-select:none;-webkit-user-select:none;
@@ -73,31 +68,29 @@
   .brand{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px;letter-spacing:-.01em}
   .brand-mark{
     width:22px;height:22px;border-radius:6px;
-    background:var(--bg-2);
-    border:1px solid var(--border-2);
+    background:var(--bg-2);border:1px solid var(--border-2);
     display:grid;place-items:center;font-size:12px;line-height:1;
+  }
+  .brand-mark.admin{
+    background:rgba(94,106,210,.18);
+    border-color:rgba(94,106,210,.45);
+    color:#a8aff5;
   }
 
   .pill{
     display:inline-flex;align-items:center;gap:6px;
     height:26px;padding:0 10px;
     border-radius:999px;
-    background:var(--bg-1);
-    border:1px solid var(--border);
-    font-size:12px;font-weight:500;
-    color:var(--text-2);
+    background:var(--bg-1);border:1px solid var(--border);
+    font-size:12px;font-weight:500;color:var(--text-2);
     font-variant-numeric:tabular-nums;
   }
   .pill .dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
   .pill b{color:var(--text);font-weight:600}
   .pill .lbl{color:var(--text-3)}
 
-  /* ── Content / Panels ── */
-  .content{
-    flex:1;min-height:0;
-    position:relative;
-    overflow:hidden;
-  }
+  /* ── Content ── */
+  .content{flex:1;min-height:0;position:relative;overflow:hidden}
 
   .panel{
     position:absolute;inset:0;
@@ -105,39 +98,30 @@
     overflow-y:auto;overflow-x:hidden;
     -webkit-overflow-scrolling:touch;
     overscroll-behavior:contain;
-    opacity:0;
-    transform:translateY(6px);
-    visibility:hidden;
-    pointer-events:none;
+    opacity:0;transform:translateY(6px);
+    visibility:hidden;pointer-events:none;
     transition:opacity .18s ease,transform .18s ease;
   }
-  .panel.active{
-    opacity:1;transform:translateY(0);
-    visibility:visible;pointer-events:auto;
-  }
+  .panel.active{opacity:1;transform:translateY(0);visibility:visible;pointer-events:auto}
 
   .panel[data-tab="tap"]{
     display:flex;flex-direction:column;
-    overflow:hidden;
-    padding:0 16px 12px;
-    gap:14px;
+    overflow:hidden;padding:0 16px 12px;gap:14px;
   }
 
   .panel-head{padding:4px 0 14px}
   .panel-title{font-size:18px;font-weight:600;letter-spacing:-.02em;color:var(--text)}
   .panel-sub{font-size:12.5px;color:var(--text-3);margin-top:2px;font-weight:400}
 
-  /* ── Score (tap panel) ── */
+  /* ── Score ── */
   .score{
     flex-shrink:0;
     display:flex;flex-direction:column;align-items:center;
     gap:5px;padding:8px 0 4px;
   }
-
   .balance{
     font-size:52px;font-weight:600;
     letter-spacing:-.035em;line-height:1;
-    color:var(--text);
     font-variant-numeric:tabular-nums;
     display:flex;align-items:baseline;gap:10px;
   }
@@ -145,40 +129,29 @@
     font-size:13px;font-weight:500;
     color:var(--text-3);letter-spacing:0;text-transform:uppercase;
   }
-
-  .sub{
-    font-size:12px;color:var(--text-3);
-    font-weight:500;font-variant-numeric:tabular-nums;
-  }
+  .sub{font-size:12px;color:var(--text-3);font-weight:500;font-variant-numeric:tabular-nums}
   .sub b{color:var(--text-2);font-weight:500}
 
-  /* ── Stage (cat) ── */
+  /* ── Stage ── */
   .stage{
     flex:1;min-height:0;
     display:flex;align-items:center;justify-content:center;
-    position:relative;
-    touch-action:manipulation;
+    position:relative;touch-action:manipulation;
   }
-
   .stage-inner{
     position:relative;
-    width:min(220px,58vw);
-    max-height:100%;
+    width:min(220px,58vw);max-height:100%;
     aspect-ratio:1;
     display:flex;align-items:center;justify-content:center;
   }
-
   .ring{
     position:absolute;inset:0;
-    border-radius:50%;
-    border:1px solid var(--border);
+    border-radius:50%;border:1px solid var(--border);
     pointer-events:none;
   }
   .ring::after{
-    content:'';
-    position:absolute;inset:-1px;
-    border-radius:50%;
-    border:1px solid transparent;
+    content:'';position:absolute;inset:-1px;
+    border-radius:50%;border:1px solid transparent;
     border-top-color:var(--border-3);
     animation:spin 9s linear infinite;
     will-change:transform;
@@ -186,23 +159,17 @@
   @keyframes spin{to{transform:rotate(360deg)}}
 
   .cat{
-    position:relative;
-    width:72%;height:72%;
-    z-index:1;
-    color:var(--text);
-    cursor:pointer;
+    position:relative;width:72%;height:72%;
+    z-index:1;color:var(--text);cursor:pointer;
     transition:transform .09s cubic-bezier(.2,.9,.3,1);
-    will-change:transform;
-    transform:translateZ(0);
+    will-change:transform;transform:translateZ(0);
   }
   .cat.tapped{transform:scale(.94)}
   .cat svg{width:100%;height:100%;display:block;overflow:visible}
 
   /* ── Effects ── */
   .ripple{
-    position:fixed;
-    width:8px;height:8px;
-    border-radius:50%;
+    position:fixed;width:8px;height:8px;border-radius:50%;
     border:1.5px solid var(--text-2);
     pointer-events:none;z-index:9998;
     transform:translate(-50%,-50%) scale(.5);
@@ -213,14 +180,11 @@
   @keyframes rip{to{transform:translate(-50%,-50%) scale(9);opacity:0}}
 
   .float{
-    position:fixed;
-    pointer-events:none;
+    position:fixed;pointer-events:none;
     font-size:15px;font-weight:600;
-    letter-spacing:-.02em;
-    color:var(--text);
+    letter-spacing:-.02em;color:var(--text);
     font-variant-numeric:tabular-nums;
-    z-index:9999;
-    transform:translate(-50%,-50%);
+    z-index:9999;transform:translate(-50%,-50%);
     animation:floatUp .8s cubic-bezier(.2,.8,.3,1) forwards;
     will-change:transform,opacity;
     contain:layout style paint;
@@ -240,27 +204,21 @@
     border:1px solid var(--border);
     position:relative;
   }
-
   .energy-head{
     display:flex;align-items:center;justify-content:space-between;
     margin-bottom:10px;
   }
-
   .energy-title{
     display:flex;align-items:center;gap:8px;
     font-size:11px;font-weight:600;
     letter-spacing:.08em;text-transform:uppercase;
     color:var(--text-3);
   }
-
   .energy-title .ico{
-    width:20px;height:20px;
-    border-radius:6px;
-    background:var(--bg-2);
-    border:1px solid var(--border);
+    width:20px;height:20px;border-radius:6px;
+    background:var(--bg-2);border:1px solid var(--border);
     display:grid;place-items:center;
-    color:var(--text-2);
-    flex-shrink:0;
+    color:var(--text-2);flex-shrink:0;
   }
   .energy-title .ico svg{width:11px;height:11px;display:block}
 
@@ -276,62 +234,38 @@
     background:var(--text-3);
     animation:blip 1.8s ease-in-out infinite;
   }
-  .energy-rate.idle .pulse{
-    background:var(--green);
-    animation:none;
-  }
-  @keyframes blip{
-    0%,100%{opacity:.35}
-    50%{opacity:1}
-  }
+  .energy-rate.idle .pulse{background:var(--green);animation:none}
+  @keyframes blip{0%,100%{opacity:.35}50%{opacity:1}}
 
   .energy-num{
     display:flex;align-items:baseline;gap:6px;
     font-variant-numeric:tabular-nums;
-    margin-bottom:8px;
-    line-height:1.1;
+    margin-bottom:8px;line-height:1.1;
   }
-  .energy-num b{
-    font-size:26px;font-weight:600;
-    letter-spacing:-.03em;
-    color:var(--text);
-  }
-  .energy-num span{
-    font-size:13px;font-weight:500;
-    color:var(--text-3);
-  }
+  .energy-num b{font-size:26px;font-weight:600;letter-spacing:-.03em;color:var(--text)}
+  .energy-num span{font-size:13px;font-weight:500;color:var(--text-3)}
 
   .energy-track{
-    height:6px;
-    background:rgba(255,255,255,.05);
-    border-radius:999px;
-    overflow:hidden;
-    position:relative;
+    height:6px;background:rgba(255,255,255,.05);
+    border-radius:999px;overflow:hidden;position:relative;
   }
-
   .energy-fill{
-    height:100%;
-    background:var(--text);
+    height:100%;background:var(--text);
     border-radius:999px;
     transition:width .2s linear,background .25s ease;
     will-change:width,background;
     transform:translateZ(0);
   }
-
   .energy-fill[data-state="mid"]{background:#a0a4ad}
   .energy-fill[data-state="low"]{background:var(--amber)}
   .energy-fill[data-state="empty"]{background:var(--red)}
 
   .energy-foot{
     display:flex;justify-content:space-between;align-items:center;
-    margin-top:9px;
-    font-size:11.5px;font-weight:500;
-    color:var(--text-3);
-    font-variant-numeric:tabular-nums;
+    margin-top:9px;font-size:11.5px;font-weight:500;
+    color:var(--text-3);font-variant-numeric:tabular-nums;
   }
-  .energy-foot .lvl{
-    display:inline-flex;align-items:center;gap:5px;
-  }
+  .energy-foot .lvl{display:inline-flex;align-items:center;gap:5px}
   .energy-foot .lvl b{color:var(--text-2);font-weight:600}
 
   .energy.depleted .energy-track{animation:deny .3s}
@@ -341,7 +275,7 @@
     75%{transform:translateX(3px)}
   }
 
-  /* ── Section ── */
+  /* ── Sections ── */
   .sect{
     display:flex;align-items:center;justify-content:space-between;
     padding:14px 2px 8px;
@@ -352,12 +286,11 @@
     color:var(--text-3);
   }
   .sect-meta{
-    font-size:12px;font-weight:500;
-    color:var(--text-3);
+    font-size:12px;font-weight:500;color:var(--text-3);
     font-variant-numeric:tabular-nums;
   }
 
-  /* ── List ── */
+  /* ── Lists ── */
   .list{
     display:flex;flex-direction:column;
     border:1px solid var(--border);
@@ -368,26 +301,22 @@
 
   .row{
     display:flex;align-items:center;justify-content:space-between;gap:12px;
-    padding:12px 14px;
-    font-size:13px;
+    padding:12px 14px;font-size:13px;
   }
   .row + .row{border-top:1px solid var(--border)}
   .row .k{color:var(--text-2);font-weight:400}
   .row .v{color:var(--text);font-weight:500;font-variant-numeric:tabular-nums}
 
-  /* ── Upgrade card ── */
+  /* ── Upgrade ── */
   .up{
     display:flex;align-items:center;gap:12px;
-    padding:13px 14px;
-    position:relative;
+    padding:13px 14px;position:relative;
   }
   .up + .up{border-top:1px solid var(--border)}
 
   .up-ico{
-    flex-shrink:0;
-    width:36px;height:36px;
-    border-radius:9px;
-    background:var(--bg-2);
+    flex-shrink:0;width:36px;height:36px;
+    border-radius:9px;background:var(--bg-2);
     border:1px solid var(--border);
     display:grid;place-items:center;
     color:var(--text-2);
@@ -401,14 +330,11 @@
   }
   .up-name{font-size:13.5px;font-weight:500;color:var(--text);letter-spacing:-.005em;line-height:1.3}
   .up-lv{
-    font-size:11px;font-weight:500;
-    color:var(--text-3);
-    font-variant-numeric:tabular-nums;
-    flex-shrink:0;
+    font-size:11px;font-weight:500;color:var(--text-3);
+    font-variant-numeric:tabular-nums;flex-shrink:0;
   }
   .up-meta{
-    font-size:12px;color:var(--text-3);
-    font-weight:400;
+    font-size:12px;color:var(--text-3);font-weight:400;
     font-variant-numeric:tabular-nums;
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
@@ -417,210 +343,160 @@
 
   /* ── Buttons ── */
   .btn{
-    flex-shrink:0;
-    height:34px;
-    padding:0 13px;
+    flex-shrink:0;height:34px;padding:0 13px;
     border-radius:var(--r-sm);
     border:1px solid var(--border-2);
     background:rgba(255,255,255,.03);
     color:var(--text);
-    font-family:inherit;
-    font-size:12.5px;font-weight:500;
-    letter-spacing:-.005em;
-    font-variant-numeric:tabular-nums;
+    font-family:inherit;font-size:12.5px;font-weight:500;
+    letter-spacing:-.005em;font-variant-numeric:tabular-nums;
     cursor:pointer;
     display:inline-flex;align-items:center;justify-content:center;gap:5px;
     transition:background .12s,border-color .12s,color .12s,transform .08s;
     -webkit-appearance:none;appearance:none;
-    white-space:nowrap;
-    user-select:none;
+    white-space:nowrap;user-select:none;
   }
-
-  .btn:disabled{
-    color:var(--text-3);
-    cursor:not-allowed;
-    background:transparent;
-    border-color:var(--border);
-  }
-
-  .btn.buy{
-    background:var(--accent);
-    border-color:var(--accent);
-    color:#fff;
-  }
+  .btn:disabled{color:var(--text-3);cursor:not-allowed;background:transparent;border-color:var(--border)}
+  .btn.buy{background:var(--accent);border-color:var(--accent);color:#fff}
   .btn.buy:active{background:var(--accent-2);border-color:var(--accent-2);transform:scale(.97)}
-
-  .btn .coin{
-    width:9px;height:9px;border-radius:50%;
-    background:currentColor;opacity:.5;
-    flex-shrink:0;
-  }
+  .btn .coin{width:9px;height:9px;border-radius:50%;background:currentColor;opacity:.5;flex-shrink:0}
   .btn.buy .coin{opacity:.85}
-
-  .btn.block{
-    width:100%;
-    height:40px;
-    justify-content:center;
-    font-size:13.5px;
-  }
-
-  .btn.danger{
-    color:#ff8d92;
-    border-color:rgba(229,72,77,.28);
-    background:rgba(229,72,77,.06);
-  }
+  .btn.block{width:100%;height:40px;justify-content:center;font-size:13.5px}
+  .btn.danger{color:#ff8d92;border-color:rgba(229,72,77,.28);background:rgba(229,72,77,.06)}
   .btn.danger:active{background:rgba(229,72,77,.12)}
-  .btn.danger.armed{
-    background:var(--red);
-    border-color:var(--red);
-    color:#fff;
-  }
+  .btn.danger.armed{background:var(--red);border-color:var(--red);color:#fff}
+  .btn.tiny{height:30px;padding:0 10px;font-size:12px}
 
-  /* ── Bonus card (friends) ── */
+  /* ── Bonus / Ref ── */
   .bonus{
-    padding:20px 18px;
-    border-radius:var(--r);
-    background:var(--bg-1);
-    border:1px solid var(--border);
-    margin-bottom:12px;
-    position:relative;
-    overflow:hidden;
+    padding:20px 18px;border-radius:var(--r);
+    background:var(--bg-1);border:1px solid var(--border);
+    margin-bottom:12px;position:relative;overflow:hidden;
   }
   .bonus-val{
-    font-size:34px;font-weight:600;
-    letter-spacing:-.03em;
-    line-height:1.1;
-    font-variant-numeric:tabular-nums;
-    color:var(--text);
+    font-size:34px;font-weight:600;letter-spacing:-.03em;
+    line-height:1.1;font-variant-numeric:tabular-nums;color:var(--text);
   }
-  .bonus-lbl{
-    font-size:12.5px;color:var(--text-3);
-    font-weight:500;margin-top:4px;
-    letter-spacing:-.005em;
-  }
+  .bonus-lbl{font-size:12.5px;color:var(--text-3);font-weight:500;margin-top:4px;letter-spacing:-.005em}
 
-  /* ── Ref card ── */
-  .ref{
-    padding:14px;
-    border-radius:var(--r);
-    background:var(--bg-1);
-    border:1px solid var(--border);
-    margin-bottom:12px;
-  }
+  .ref{padding:14px;border-radius:var(--r);background:var(--bg-1);border:1px solid var(--border);margin-bottom:12px}
   .ref-lbl{
-    font-size:11px;font-weight:600;
-    letter-spacing:.08em;text-transform:uppercase;
-    color:var(--text-3);
-    margin-bottom:8px;
+    font-size:11px;font-weight:600;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--text-3);margin-bottom:8px;
   }
   .ref-link{
     font-family:ui-monospace,'SF Mono',Menlo,monospace;
-    font-size:12px;
-    color:var(--text-2);
-    padding:9px 11px;
-    background:var(--bg);
-    border:1px solid var(--border);
-    border-radius:var(--r-sm);
+    font-size:12px;color:var(--text-2);
+    padding:9px 11px;background:var(--bg);
+    border:1px solid var(--border);border-radius:var(--r-sm);
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-    margin-bottom:10px;
-    font-variant-numeric:tabular-nums;
+    margin-bottom:10px;font-variant-numeric:tabular-nums;
   }
   .ref-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 
-  /* ── Empty state ── */
   .empty{
-    padding:32px 20px;
-    text-align:center;
+    padding:32px 20px;text-align:center;
     display:flex;flex-direction:column;align-items:center;gap:8px;
   }
   .empty-ico{
-    width:36px;height:36px;
-    border-radius:10px;
-    background:var(--bg-2);
-    border:1px solid var(--border);
+    width:36px;height:36px;border-radius:10px;
+    background:var(--bg-2);border:1px solid var(--border);
     display:grid;place-items:center;
-    color:var(--text-3);
-    margin-bottom:2px;
+    color:var(--text-3);margin-bottom:2px;
   }
   .empty-ico svg{width:16px;height:16px;display:block}
-  .empty-title{
-    font-size:13.5px;font-weight:500;
-    color:var(--text-2);
-    letter-spacing:-.005em;
-  }
-  .empty-desc{
-    font-size:12px;color:var(--text-3);
-    max-width:240px;line-height:1.5;
-  }
+  .empty-title{font-size:13.5px;font-weight:500;color:var(--text-2);letter-spacing:-.005em}
+  .empty-desc{font-size:12px;color:var(--text-3);max-width:240px;line-height:1.5}
 
   /* ── Profile ── */
   .profile{
     display:flex;align-items:center;gap:14px;
-    padding:16px;
-    border-radius:var(--r);
-    background:var(--bg-1);
-    border:1px solid var(--border);
+    padding:16px;border-radius:var(--r);
+    background:var(--bg-1);border:1px solid var(--border);
     margin-bottom:12px;
   }
   .avatar{
-    flex-shrink:0;
-    width:56px;height:56px;
-    border-radius:14px;
-    background:var(--bg-2);
+    flex-shrink:0;width:56px;height:56px;
+    border-radius:14px;background:var(--bg-2);
     border:1px solid var(--border-2);
     display:grid;place-items:center;
-    font-size:20px;font-weight:600;
-    color:var(--text-2);
-    overflow:hidden;
-    letter-spacing:-.02em;
+    font-size:20px;font-weight:600;color:var(--text-2);
+    overflow:hidden;letter-spacing:-.02em;
   }
   .avatar img{width:100%;height:100%;object-fit:cover;display:block}
   .profile-info{flex:1;min-width:0}
   .profile-name{
-    font-size:15px;font-weight:600;
-    color:var(--text);letter-spacing:-.015em;
-    line-height:1.3;
+    font-size:15px;font-weight:600;color:var(--text);
+    letter-spacing:-.015em;line-height:1.3;
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   }
   .profile-handle{
-    font-size:12.5px;color:var(--text-3);
-    font-weight:400;margin-top:1px;
+    font-size:12.5px;color:var(--text-3);font-weight:400;margin-top:1px;
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   }
 
   .stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:1px;
-    background:var(--border);
-    border:1px solid var(--border);
-    border-radius:var(--r);
-    overflow:hidden;
-    margin-bottom:12px;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+    background:var(--border);border:1px solid var(--border);
+    border-radius:var(--r);overflow:hidden;margin-bottom:12px;
   }
   .stat{
-    background:var(--bg-1);
-    padding:14px 8px;
+    background:var(--bg-1);padding:14px 8px;
     display:flex;flex-direction:column;align-items:center;gap:3px;
     text-align:center;
   }
   .stat-v{
-    font-size:16px;font-weight:600;
-    color:var(--text);letter-spacing:-.02em;
-    font-variant-numeric:tabular-nums;
-    line-height:1.2;
+    font-size:16px;font-weight:600;color:var(--text);
+    letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2;
   }
-  .stat-l{
-    font-size:10.5px;font-weight:500;
-    color:var(--text-3);
-    letter-spacing:.02em;
-  }
+  .stat-l{font-size:10.5px;font-weight:500;color:var(--text-3);letter-spacing:.02em}
 
-  .version{
-    text-align:center;
+  .version{text-align:center;font-size:11px;color:var(--text-4);padding:24px 0 8px;font-weight:500}
+
+  /* ── Admin ── */
+  .admin-tool{
+    display:flex;flex-direction:column;gap:8px;
+    padding:12px 14px;
+  }
+  .admin-tool + .admin-tool{border-top:1px solid var(--border)}
+  .admin-tool-lbl{
+    font-size:12.5px;font-weight:500;color:var(--text-2);
+    letter-spacing:-.005em;
+  }
+  .admin-tool-lbl .hint{
+    font-size:11.5px;color:var(--text-4);font-weight:400;
+    margin-left:6px;
+  }
+  .admin-tool-row{display:flex;gap:6px;align-items:center}
+  .admin-tool-row .btn{flex:1}
+  .admin-input{
+    flex:1;min-width:0;height:34px;padding:0 11px;
+    border-radius:var(--r-sm);
+    background:var(--bg);border:1px solid var(--border);
+    color:var(--text);font-family:inherit;font-size:13px;
+    font-variant-numeric:tabular-nums;outline:none;
+    transition:border-color .12s;
+    -webkit-appearance:none;appearance:none;
+  }
+  .admin-input:focus{border-color:var(--border-3)}
+  .admin-input::placeholder{color:var(--text-4)}
+  .admin-input::-webkit-outer-spin-button,
+  .admin-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+  .adm-ban{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 14px;
+  }
+  .adm-ban + .adm-ban{border-top:1px solid var(--border)}
+  .adm-ban-id{
+    flex:1;min-width:0;
+    font-family:ui-monospace,'SF Mono',Menlo,monospace;
+    font-size:12px;color:var(--text-2);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .adm-ban-reason{
     font-size:11px;color:var(--text-4);
-    padding:24px 0 8px;
-    font-weight:500;
+    font-weight:400;margin-left:6px;
   }
 
   /* ── Nav ── */
@@ -633,18 +509,15 @@
     border-top:1px solid var(--border);
     background:var(--bg);
   }
+  .nav.admin{grid-template-columns:repeat(5,1fr)}
 
   .nav-btn{
     display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:3px;
-    padding:8px 4px;
+    gap:3px;padding:8px 4px;
     background:transparent;border:none;
-    color:var(--text-3);
-    font-family:inherit;
-    font-size:10px;font-weight:500;
-    letter-spacing:.02em;
-    cursor:pointer;
-    border-radius:8px;
+    color:var(--text-3);font-family:inherit;
+    font-size:10px;font-weight:500;letter-spacing:.02em;
+    cursor:pointer;border-radius:8px;
     transition:color .12s;
     -webkit-appearance:none;appearance:none;
     -webkit-tap-highlight-color:transparent;
@@ -652,39 +525,83 @@
   .nav-btn svg{width:20px;height:20px;display:block}
   .nav-btn.active{color:var(--text)}
   .nav-btn:active{color:var(--text-2)}
+  .nav-btn.admin{color:rgba(168,175,245,.7)}
+  .nav-btn.admin.active{color:#a8aff5}
+  .nav-btn[data-tab="admin"]{display:none}
+  .nav.admin .nav-btn[data-tab="admin"]{display:flex}
 
   /* ── Toast ── */
   .toast{
-    position:fixed;
-    left:50%;
+    position:fixed;left:50%;
     bottom:calc(env(safe-area-inset-bottom) + 78px);
     transform:translate(-50%,12px);
-    padding:9px 14px;
-    border-radius:8px;
-    background:var(--bg-2);
-    border:1px solid var(--border-2);
-    color:var(--text);
-    font-size:12.5px;font-weight:500;
+    padding:9px 14px;border-radius:8px;
+    background:var(--bg-2);border:1px solid var(--border-2);
+    color:var(--text);font-size:12.5px;font-weight:500;
     letter-spacing:-.005em;
     box-shadow:0 8px 24px rgba(0,0,0,.5);
-    opacity:0;
-    pointer-events:none;
+    opacity:0;pointer-events:none;
     transition:opacity .18s ease,transform .18s cubic-bezier(.34,1.4,.64,1);
-    z-index:10000;
-    max-width:calc(100vw - 32px);
+    z-index:10000;max-width:calc(100vw - 32px);
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
     font-variant-numeric:tabular-nums;
   }
   .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  /* ── Ban screen ── */
+  .ban-screen{
+    position:fixed;inset:0;z-index:99999;
+    background:var(--bg);
+    display:none;
+    align-items:center;justify-content:center;
+    padding:24px;
+  }
+  .ban-screen.show{display:flex}
+
+  .ban-card{
+    max-width:340px;width:100%;
+    padding:28px 24px;
+    border-radius:14px;
+    background:var(--bg-1);
+    border:1px solid var(--border-2);
+    text-align:center;
+  }
+  .ban-icon{
+    width:52px;height:52px;
+    border-radius:14px;
+    background:rgba(229,72,77,.12);
+    border:1px solid rgba(229,72,77,.3);
+    color:var(--red);
+    display:grid;place-items:center;
+    margin:0 auto 16px;
+    font-size:24px;
+  }
+  .ban-title{
+    font-size:16px;font-weight:600;
+    color:var(--text);letter-spacing:-.015em;
+    margin-bottom:8px;
+  }
+  .ban-desc{
+    font-size:13px;color:var(--text-2);
+    line-height:1.5;margin-bottom:16px;
+  }
+  .ban-meta{
+    font-size:12px;color:var(--text-3);
+    font-family:ui-monospace,'SF Mono',Menlo,monospace;
+    padding:8px 10px;background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:var(--r-sm);
+    font-variant-numeric:tabular-nums;
+  }
 </style>
 </head>
 <body>
 
-<div class="app">
+<div class="app" id="app">
 
   <header class="app-hdr">
     <div class="brand">
-      <div class="brand-mark">🐱</div>
+      <div class="brand-mark" id="brandMark">🐱</div>
       <span>Cat Kombat</span>
     </div>
     <div class="pill">
@@ -698,7 +615,6 @@
 
     <!-- ═══ TAP ═══ -->
     <section class="panel active" data-tab="tap">
-
       <div class="score">
         <div class="balance">
           <span id="coins">0</span>
@@ -710,7 +626,7 @@
       <div class="stage" id="stage">
         <div class="stage-inner">
           <div class="ring"></div>
-          <svg class="cat" id="cat" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="cat">
+          <svg class="cat" id="cat" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
             <g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" stroke-linecap="round">
               <path d="M30 44 L22 14 L52 32"/>
               <path d="M90 44 L98 14 L68 32"/>
@@ -741,7 +657,7 @@
           </div>
           <div class="energy-rate idle" id="energyRate">
             <span class="pulse"></span>
-            <span>+3 / сек</span>
+            <span>+20 / мин</span>
           </div>
         </div>
 
@@ -759,7 +675,6 @@
           <span class="lvl">ур. <b id="energyLvl">0</b></span>
         </div>
       </div>
-
     </section>
 
     <!-- ═══ UPGRADES ═══ -->
@@ -846,9 +761,7 @@
         </div>
       </div>
 
-      <div class="sect">
-        <span class="sect-title">Статистика</span>
-      </div>
+      <div class="sect"><span class="sect-title">Статистика</span></div>
 
       <div class="list">
         <div class="row"><span class="k">Ранг</span><span class="v" id="statRank">Новичок</span></div>
@@ -857,18 +770,106 @@
         <div class="row"><span class="k">Сила тапа</span><span class="v" id="statTapPower">+1</span></div>
       </div>
 
-      <div class="sect">
-        <span class="sect-title">Управление</span>
-      </div>
-
+      <div class="sect"><span class="sect-title">Управление</span></div>
       <button class="btn danger block" type="button" id="resetBtn">Сбросить прогресс</button>
 
-      <div class="version">Cat Kombat v1.0 · сделано с 🐱</div>
+      <div class="version">Cat Kombat v1.1 · сделано с 🐱</div>
+    </section>
+
+    <!-- ═══ ADMIN ═══ -->
+    <section class="panel" data-tab="admin">
+      <div class="panel-head">
+        <div class="panel-title">Админка</div>
+        <div class="panel-sub">Полный доступ к состоянию</div>
+      </div>
+
+      <div class="list">
+        <div class="row"><span class="k">Твой ID</span><span class="v" id="admMyId">—</span></div>
+        <div class="row"><span class="k">Страйков</span><span class="v" id="admStrikes">0 / 3</span></div>
+      </div>
+
+      <div class="sect"><span class="sect-title">Ресурсы</span></div>
+      <div class="list">
+        <div class="admin-tool">
+          <div class="admin-tool-lbl">Монеты</div>
+          <div class="admin-tool-row">
+            <input class="admin-input" type="number" id="admCoinsInput" placeholder="10000" inputmode="numeric">
+            <button class="btn buy tiny" id="admCoinsAdd">+ выдать</button>
+            <button class="btn tiny" id="admCoinsSet">= установить</button>
+          </div>
+        </div>
+        <div class="admin-tool">
+          <div class="admin-tool-lbl">Энергия</div>
+          <div class="admin-tool-row">
+            <input class="admin-input" type="number" id="admEnergyInput" placeholder="1000" inputmode="numeric">
+            <button class="btn buy tiny" id="admEnergySet">= установить</button>
+            <button class="btn tiny" id="admEnergyFill">заполнить</button>
+          </div>
+        </div>
+        <div class="admin-tool">
+          <div class="admin-tool-lbl">Сила тапа <span class="hint">уровень</span></div>
+          <div class="admin-tool-row">
+            <input class="admin-input" type="number" id="admTapInput" placeholder="10" inputmode="numeric">
+            <button class="btn buy tiny" id="admTapSet">= установить</button>
+          </div>
+        </div>
+        <div class="admin-tool">
+          <div class="admin-tool-lbl">Лимит энергии <span class="hint">уровень</span></div>
+          <div class="admin-tool-row">
+            <input class="admin-input" type="number" id="admMaxEInput" placeholder="10" inputmode="numeric">
+            <button class="btn buy tiny" id="admMaxESet">= установить</button>
+          </div>
+        </div>
+        <div class="admin-tool">
+          <div class="admin-tool-lbl">Пассивный доход <span class="hint">уровень</span></div>
+          <div class="admin-tool-row">
+            <input class="admin-input" type="number" id="admPassInput" placeholder="10" inputmode="numeric">
+            <button class="btn buy tiny" id="admPassSet">= установить</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sect"><span class="sect-title">Модерация</span></div>
+      <div class="list">
+        <div class="admin-tool">
+          <div class="admin-tool-lbl">Забанить по ID</div>
+          <div class="admin-tool-row">
+            <input class="admin-input" type="text" id="admBanInput" placeholder="123456789" inputmode="numeric">
+            <button class="btn danger tiny" id="admBanBtn">забанить</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sect">
+        <span class="sect-title">Забаненные</span>
+        <span class="sect-meta" id="admBanCount">0</span>
+      </div>
+      <div class="list" id="admBanList"></div>
+
+      <div class="sect"><span class="sect-title">Debug</span></div>
+      <div class="list">
+        <div class="admin-tool">
+          <div class="admin-tool-lbl">Страйки анти-чита</div>
+          <div class="admin-tool-row">
+            <button class="btn tiny" id="admStrikeAdd">+1 страйк</button>
+            <button class="btn tiny" id="admStrikeClear">сбросить</button>
+          </div>
+        </div>
+        <div class="admin-tool">
+          <div class="admin-tool-lbl">Опасная зона</div>
+          <div class="admin-tool-row">
+            <button class="btn danger tiny" id="admBanSelf">забанить себя</button>
+            <button class="btn danger tiny" id="admWipe">стереть всё</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="version">Admin mode · используй осторожно</div>
     </section>
 
   </main>
 
-  <nav class="nav">
+  <nav class="nav" id="nav">
     <button class="nav-btn active" data-tab="tap" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="8"/>
@@ -899,17 +900,68 @@
       </svg>
       <span>Профиль</span>
     </button>
+    <button class="nav-btn admin" data-tab="admin" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z"/>
+        <path d="M12 8v4"/>
+        <circle cx="12" cy="15" r="0.8" fill="currentColor"/>
+      </svg>
+      <span>Админ</span>
+    </button>
   </nav>
 
 </div>
 
 <div class="toast" id="toast"></div>
 
+<!-- ═══ BAN SCREEN ═══ -->
+<div class="ban-screen" id="banScreen">
+  <div class="ban-card">
+    <div class="ban-icon">🚫</div>
+    <div class="ban-title">Доступ заблокирован</div>
+    <div class="ban-desc">Обнаружена подозрительная активность. Если считаешь это ошибкой — напиши в поддержку.</div>
+    <div class="ban-meta">ID: <span id="banId">—</span></div>
+  </div>
+</div>
+
 <script>
 (() => {
 'use strict';
 
-/* ══════════════ TELEGRAM ══════════════ */
+/* ═══════════════════════════════════════════
+   CONFIG
+   ═══════════════════════════════════════════ */
+const BOT_USERNAME = 'cat_combat_tapbot';        // ← замени на username бота
+const ADMIN_IDS    = [8648799615];              // ← сюда свой Telegram ID (числа)
+
+const KEY       = 'cat_kombat_v5';
+const BAN_KEY   = 'cat_kombat_bans_v1';
+const SIG_SALT  = 'ck_secret_2024_dont_read';
+
+const REGEN_PER_MIN = 20;                      // энергия в минуту
+const REGEN_PER_SEC = REGEN_PER_MIN / 60;      // ≈0.333/сек
+
+const TAP_CAP       = 25;                      // макс тапов в секунду
+const MAX_STRIKES   = 3;                       // страйков до автобана
+const OFFLINE_CAP   = 3 * 3600_000;
+const REF_BONUS     = 5000;
+const MAX_FLOAT     = 10;
+
+const DEFS = {
+  tap:     { name:'Сила тапа',       base:100, mult:1.8 },
+  energy:  { name:'Лимит энергии',   base:200, mult:1.8 },
+  passive: { name:'Пассивный доход', base:500, mult:1.9 }
+};
+
+const ICONS = {
+  tap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none"/></svg>',
+  energy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>',
+  passive: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>'
+};
+
+/* ═══════════════════════════════════════════
+   TELEGRAM
+   ═══════════════════════════════════════════ */
 const tg = window.Telegram?.WebApp;
 try {
   tg?.ready(); tg?.expand();
@@ -924,31 +976,60 @@ const haptic = s => {
     navigator.vibrate?.(s === 'medium' ? 18 : 8);
   } catch {}
 };
-
 const notify = t => { try { tg?.HapticFeedback?.notificationOccurred?.(t); } catch {} };
 
-/* ══════════════ CONFIG ══════════════ */
-const BOT_USERNAME = 'cat_combat_tapbot';  // ← замени на username своего бота (без @)
-const KEY          = 'cat_kombat_v4';
-const REGEN        = 3;
-const TAP_CAP      = 25;
-const OFFLINE_CAP  = 3 * 3600_000;
-const REF_BONUS    = 5000;               // бонус за друга
-const MAX_FLOAT    = 10;
+function tgUser() {
+  return tg?.initDataUnsafe?.user || null;
+}
+function userId() {
+  return tgUser()?.id || 'guest';
+}
+function isAdmin() {
+  const u = tgUser();
+  if (!u) return false;
+  return ADMIN_IDS.map(String).includes(String(u.id));
+}
 
-const DEFS = {
-  tap:     { name:'Сила тапа',       base:100, mult:1.8 },
-  energy:  { name:'Лимит энергии',   base:200, mult:1.8 },
-  passive: { name:'Пассивный доход', base:500, mult:1.9 }
-};
+/* ═══════════════════════════════════════════
+   BAN SYSTEM
+   ═══════════════════════════════════════════ */
+function getBanned() {
+  try {
+    const raw = localStorage.getItem(BAN_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    return Array.isArray(arr) ? arr : [];
+  } catch { return []; }
+}
 
-const ICONS = {
-  tap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none"/></svg>',
-  energy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>',
-  passive: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>'
-};
+function setBanned(arr) {
+  try { localStorage.setItem(BAN_KEY, JSON.stringify(arr)); } catch {}
+}
 
-/* ══════════════ STATE ══════════════ */
+function banUser(id, reason) {
+  if (!id || id === 'guest') return;
+  const list = getBanned();
+  if (list.some(x => String(x.id) === String(id))) return;
+  list.push({ id: String(id), reason: reason || 'manual', at: Date.now() });
+  setBanned(list);
+}
+
+function unbanUser(id) {
+  setBanned(getBanned().filter(x => String(x.id) !== String(id)));
+}
+
+function isBanned(id) {
+  return getBanned().some(x => String(x.id) === String(id));
+}
+
+function showBanScreen() {
+  document.getElementById('banId').textContent = userId();
+  document.getElementById('banScreen').classList.add('show');
+  document.getElementById('app').style.display = 'none';
+}
+
+/* ═══════════════════════════════════════════
+   STATE
+   ═══════════════════════════════════════════ */
 const fresh = () => ({
   coins: 0,
   totalEarned: 0,
@@ -957,9 +1038,10 @@ const fresh = () => ({
   upgrades: { tap:0, energy:0, passive:0 },
   referredBy: null,
   invitedFriends: [],
+  cheatStrikes: 0,
   firstSeen: Date.now(),
   lastUpdate: Date.now(),
-  lastSave: Date.now()
+  lastSave: Date.now(),
 });
 
 let S = fresh();
@@ -970,7 +1052,21 @@ const passiveHr = () => S.upgrades.passive * 100;
 const costOf    = id => Math.floor(DEFS[id].base * DEFS[id].mult ** S.upgrades[id]);
 const totalLvl  = () => S.upgrades.tap + S.upgrades.energy + S.upgrades.passive;
 
-/* ══════════════ FORMAT ══════════════ */
+/* ═══════════════════════════════════════════
+   SIGNATURE (anti-tamper)
+   ═══════════════════════════════════════════ */
+function computeSig(obj) {
+  const clone = Object.assign({}, obj);
+  delete clone._sig;
+  const s = JSON.stringify(clone) + SIG_SALT;
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0;
+  return h.toString(36);
+}
+
+/* ═══════════════════════════════════════════
+   FORMAT
+   ═══════════════════════════════════════════ */
 function fmt(n) {
   n = Math.floor(n);
   if (n < 1e6) return n.toLocaleString('ru-RU');
@@ -982,7 +1078,7 @@ function fmt(n) {
 function timeToFull() {
   const need = maxEnergy() - S.energy;
   if (need <= 0.5) return null;
-  const secs = Math.ceil(need / REGEN);
+  const secs = Math.ceil(need / REGEN_PER_SEC);
   if (secs < 60) return secs + ' с';
   const m = Math.floor(secs / 60);
   const s = secs % 60;
@@ -1007,7 +1103,9 @@ function rank() {
   return 'Новичок';
 }
 
-/* ══════════════ PERSISTENCE ══════════════ */
+/* ═══════════════════════════════════════════
+   PERSISTENCE
+   ═══════════════════════════════════════════ */
 let saveTimer = 0;
 const scheduleSave = () => {
   if (saveTimer) return;
@@ -1016,19 +1114,31 @@ const scheduleSave = () => {
 
 function save() {
   S.lastSave = Date.now();
+  S._sig = computeSig(S);
   try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {}
 }
 
 function load() {
-  try {
-    const raw = localStorage.getItem(KEY);
-    if (!raw) return false;
-    const d = JSON.parse(raw);
-    S = Object.assign(fresh(), d);
-    S.upgrades = Object.assign({ tap:0, energy:0, passive:0 }, d.upgrades || {});
-    if (!Array.isArray(S.invitedFriends)) S.invitedFriends = [];
-    return true;
-  } catch { return false; }
+  let raw;
+  try { raw = localStorage.getItem(KEY); } catch { return false; }
+  if (!raw) return false;
+
+  let d;
+  try { d = JSON.parse(raw); } catch { return false; }
+
+  const sig = d._sig;
+  const expected = computeSig(d);
+  if (sig && sig !== expected) {
+    registerStrike('signature mismatch');
+    return false;
+  }
+
+  delete d._sig;
+  S = Object.assign(fresh(), d);
+  S.upgrades = Object.assign({ tap:0, energy:0, passive:0 }, d.upgrades || {});
+  if (!Array.isArray(S.invitedFriends)) S.invitedFriends = [];
+  if (typeof S.cheatStrikes !== 'number') S.cheatStrikes = 0;
+  return true;
 }
 
 function applyOffline() {
@@ -1037,24 +1147,59 @@ function applyOffline() {
   const capped = Math.min(elapsed, OFFLINE_CAP);
   const earned = passiveHr() * capped / 3_600_000;
   if (earned > 0) { S.coins += earned; S.totalEarned += earned; }
-  S.energy = Math.min(maxEnergy(), S.energy + REGEN * capped / 1000);
+  S.energy = Math.min(maxEnergy(), S.energy + REGEN_PER_SEC * capped / 1000);
   S.lastUpdate = now;
   return { earned, elapsed };
 }
 
-/* ══════════════ ANTI-CHEAT ══════════════ */
+/* ═══════════════════════════════════════════
+   ANTI-CHEAT
+   ═══════════════════════════════════════════ */
 let tapLog = [];
 function tapAllowed() {
   const t = performance.now();
   tapLog = tapLog.filter(x => t - x < 1000);
-  if (tapLog.length >= TAP_CAP) return false;
+  if (tapLog.length >= TAP_CAP) {
+    registerStrike('tap rate exceeded');
+    return false;
+  }
   tapLog.push(t);
   return true;
 }
 
-/* ══════════════ DOM ══════════════ */
+let strikeToastCooldown = 0;
+function registerStrike(reason) {
+  if (isAdmin()) return; // админ неприкосновенен
+
+  S.cheatStrikes = (S.cheatStrikes || 0) + 1;
+  console.warn('[anticheat]', reason, '→ strikes:', S.cheatStrikes);
+
+  const now = Date.now();
+  if (now - strikeToastCooldown > 2000) {
+    strikeToastCooldown = now;
+    const left = MAX_STRIKES - S.cheatStrikes;
+    if (left > 0) {
+      toast(`⚠ Страйк ${S.cheatStrikes}/${MAX_STRIKES} · ${left} до бана`);
+    }
+  }
+
+  if (S.cheatStrikes >= MAX_STRIKES) {
+    banUser(userId(), 'auto: ' + reason);
+    save();
+    setTimeout(showBanScreen, 400);
+    return;
+  }
+  save();
+  paintAdmin();
+}
+
+/* ═══════════════════════════════════════════
+   DOM
+   ═══════════════════════════════════════════ */
 const $ = id => document.getElementById(id);
 const el = {
+  app: $('app'),
+  brandMark: $('brandMark'),
   coins: $('coins'),
   totalEarned: $('totalEarned'),
   headerPassive: $('headerPassive'),
@@ -1069,12 +1214,11 @@ const el = {
   cat: $('cat'),
   upList: $('upList'),
   toast: $('toast'),
-  // friends
+  nav: $('nav'),
   refLink: $('refLink'),
   copyBtn: $('copyBtn'),
   shareBtn: $('shareBtn'),
   friendCount: $('friendCount'),
-  // profile
   avatar: $('avatar'),
   userName: $('userName'),
   userHandle: $('userHandle'),
@@ -1086,10 +1230,12 @@ const el = {
   statPassive: $('statPassive'),
   statJoined: $('statJoined'),
   statTapPower: $('statTapPower'),
-  resetBtn: $('resetBtn')
+  resetBtn: $('resetBtn'),
 };
 
-/* ══════════════ TABS ══════════════ */
+/* ═══════════════════════════════════════════
+   TABS
+   ═══════════════════════════════════════════ */
 let activeTab = 'tap';
 const panels = document.querySelectorAll('.panel');
 const navBtns = document.querySelectorAll('.nav-btn');
@@ -1101,10 +1247,11 @@ function switchTab(name) {
   navBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === name));
   haptic('light');
 }
-
 navBtns.forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
 
-/* ══════════════ EFFECTS ══════════════ */
+/* ═══════════════════════════════════════════
+   EFFECTS
+   ═══════════════════════════════════════════ */
 let activeFloats = 0;
 
 function spawnRipple(x, y) {
@@ -1136,7 +1283,9 @@ function toast(msg) {
   toastTimer = setTimeout(() => el.toast.classList.remove('show'), 2000);
 }
 
-/* ══════════════ TAP ══════════════ */
+/* ═══════════════════════════════════════════
+   TAP
+   ═══════════════════════════════════════════ */
 let catTimer = 0;
 
 function doTap(x, y) {
@@ -1183,7 +1332,9 @@ if (!window.PointerEvent) {
   }, { passive: true });
 }
 
-/* ══════════════ UPGRADES ══════════════ */
+/* ═══════════════════════════════════════════
+   UPGRADES
+   ═══════════════════════════════════════════ */
 const cards = {};
 
 function effectText(id, lv) {
@@ -1269,23 +1420,16 @@ function buy(id) {
   notify('success');
   toast(`${DEFS[id].name} → ур. ${S.upgrades[id]}`);
 
-  paintScore();
-  paintEnergy();
-  paintUps();
-  paintHeader();
-  paintProfile();
+  paintScore(); paintEnergy(); paintUps(); paintHeader(); paintProfile();
   save();
 }
 
-/* ══════════════ REFERRAL ══════════════ */
-function userId() {
-  return tg?.initDataUnsafe?.user?.id || 'guest';
-}
-
+/* ═══════════════════════════════════════════
+   REFERRAL
+   ═══════════════════════════════════════════ */
 function refLink() {
   return `https://t.me/${BOT_USERNAME}?start=ref_${userId()}`;
 }
-
 function shortRefLink() {
   return `t.me/${BOT_USERNAME}?start=ref_${userId()}`;
 }
@@ -1329,9 +1473,11 @@ function shareRef() {
 el.copyBtn.addEventListener('click', copyRef);
 el.shareBtn.addEventListener('click', shareRef);
 
-/* ══════════════ PROFILE ══════════════ */
+/* ═══════════════════════════════════════════
+   PROFILE
+   ═══════════════════════════════════════════ */
 function buildProfile() {
-  const u = tg?.initDataUnsafe?.user;
+  const u = tgUser();
 
   if (u) {
     const name = [u.first_name, u.last_name].filter(Boolean).join(' ').trim() || 'Кот';
@@ -1371,7 +1517,9 @@ function paintProfile() {
   el.statTapPower.textContent = '+' + fmt(tapPower());
 }
 
-/* ══════════════ RESET ══════════════ */
+/* ═══════════════════════════════════════════
+   RESET (profile)
+   ═══════════════════════════════════════════ */
 let resetArmed = false;
 let resetTimer = 0;
 
@@ -1395,7 +1543,199 @@ el.resetBtn.addEventListener('click', () => {
   setTimeout(() => location.reload(), 150);
 });
 
-/* ══════════════ PAINTING ══════════════ */
+/* ═══════════════════════════════════════════
+   ADMIN PANEL
+   ═══════════════════════════════════════════ */
+function buildAdmin() {
+  if (!isAdmin()) return;
+
+  el.nav.classList.add('admin');
+  el.brandMark.classList.add('admin');
+  el.brandMark.textContent = '⚡';
+
+  $('admMyId').textContent = userId();
+
+  // ── Resources ──
+  $('admCoinsAdd').addEventListener('click', () => {
+    const v = parseInt($('admCoinsInput').value, 10);
+    if (!Number.isFinite(v) || v <= 0) return toast('Введи число');
+    S.coins += v; S.totalEarned += v;
+    paintScore(); paintUps(); paintProfile(); save();
+    toast(`+${fmt(v)} монет`);
+  });
+
+  $('admCoinsSet').addEventListener('click', () => {
+    const v = parseInt($('admCoinsInput').value, 10);
+    if (!Number.isFinite(v) || v < 0) return toast('Введи число');
+    S.coins = v;
+    paintScore(); paintUps(); paintProfile(); save();
+    toast(`Монеты = ${fmt(v)}`);
+  });
+
+  $('admEnergySet').addEventListener('click', () => {
+    const v = parseInt($('admEnergyInput').value, 10);
+    if (!Number.isFinite(v) || v < 0) return toast('Введи число');
+    S.energy = Math.min(maxEnergy(), Math.max(0, v));
+    paintEnergy(); save();
+    toast(`Энергия = ${fmt(S.energy)}`);
+  });
+
+  $('admEnergyFill').addEventListener('click', () => {
+    S.energy = maxEnergy();
+    paintEnergy(); save();
+    toast('Энергия заполнена');
+  });
+
+  $('admTapSet').addEventListener('click', () => {
+    const v = parseInt($('admTapInput').value, 10);
+    if (!Number.isFinite(v) || v < 0) return toast('Введи число');
+    S.upgrades.tap = Math.min(1000, v);
+    paintUps(); paintProfile(); save();
+    toast(`Сила тапа → ур. ${v}`);
+  });
+
+  $('admMaxESet').addEventListener('click', () => {
+    const v = parseInt($('admMaxEInput').value, 10);
+    if (!Number.isFinite(v) || v < 0) return toast('Введи число');
+    S.upgrades.energy = Math.min(1000, v);
+    paintUps(); paintEnergy(); paintProfile(); save();
+    toast(`Лимит энергии → ур. ${v}`);
+  });
+
+  $('admPassSet').addEventListener('click', () => {
+    const v = parseInt($('admPassInput').value, 10);
+    if (!Number.isFinite(v) || v < 0) return toast('Введи число');
+    S.upgrades.passive = Math.min(1000, v);
+    paintUps(); paintHeader(); paintProfile(); save();
+    toast(`Пассив → ур. ${v}`);
+  });
+
+  // ── Moderation ──
+  $('admBanBtn').addEventListener('click', () => {
+    const id = String($('admBanInput').value || '').trim();
+    if (!id) return toast('Введи ID');
+    if (id === String(userId())) return toast('Нельзя забанить себя здесь');
+    banUser(id, 'manual');
+    $('admBanInput').value = '';
+    paintBanList();
+    toast(`ID ${id} забанен`);
+  });
+
+  // ── Debug ──
+  $('admStrikeAdd').addEventListener('click', () => {
+    S.cheatStrikes = (S.cheatStrikes || 0) + 1;
+    if (S.cheatStrikes >= MAX_STRIKES) {
+      toast('Страйков максимум — включится автобан');
+      S.cheatStrikes = MAX_STRIKES - 1;
+    } else {
+      toast(`Страйков: ${S.cheatStrikes}`);
+    }
+    paintAdmin(); save();
+  });
+
+  $('admStrikeClear').addEventListener('click', () => {
+    S.cheatStrikes = 0;
+    paintAdmin(); save();
+    toast('Страйки сброшены');
+  });
+
+  let banSelfArmed = false;
+  let banSelfTimer = 0;
+  $('admBanSelf').addEventListener('click', (e) => {
+    if (!banSelfArmed) {
+      banSelfArmed = true;
+      e.currentTarget.textContent = 'точно?';
+      e.currentTarget.classList.add('armed');
+      clearTimeout(banSelfTimer);
+      banSelfTimer = setTimeout(() => {
+        banSelfArmed = false;
+        e.currentTarget.textContent = 'забанить себя';
+        e.currentTarget.classList.remove('armed');
+      }, 3000);
+      return;
+    }
+    clearTimeout(banSelfTimer);
+    banUser(userId(), 'admin self-ban');
+    showBanScreen();
+  });
+
+  let wipeArmed = false;
+  let wipeTimer = 0;
+  $('admWipe').addEventListener('click', (e) => {
+    if (!wipeArmed) {
+      wipeArmed = true;
+      e.currentTarget.textContent = 'точно?';
+      e.currentTarget.classList.add('armed');
+      clearTimeout(wipeTimer);
+      wipeTimer = setTimeout(() => {
+        wipeArmed = false;
+        e.currentTarget.textContent = 'стереть всё';
+        e.currentTarget.classList.remove('armed');
+      }, 3000);
+      return;
+    }
+    clearTimeout(wipeTimer);
+    try {
+      localStorage.removeItem(KEY);
+      localStorage.removeItem(BAN_KEY);
+    } catch {}
+    notify('success');
+    setTimeout(() => location.reload(), 150);
+  });
+
+  paintBanList();
+  paintAdmin();
+}
+
+function paintAdmin() {
+  if (!isAdmin()) return;
+  const st = $('admStrikes');
+  if (st) st.textContent = (S.cheatStrikes || 0) + ' / ' + MAX_STRIKES;
+  $('admMyId').textContent = userId();
+}
+
+function paintBanList() {
+  const list = $('admBanList');
+  if (!list) return;
+
+  const banned = getBanned();
+  $('admBanCount').textContent = banned.length;
+
+  if (banned.length === 0) {
+    list.innerHTML = `
+      <div class="empty">
+        <div class="empty-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M5.5 5.5l13 13"/>
+          </svg>
+        </div>
+        <div class="empty-title">Никто не забанен</div>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = '';
+  for (const b of banned) {
+    const row = document.createElement('div');
+    row.className = 'adm-ban';
+    const reasonLabel = b.reason?.startsWith('auto') ? 'авто' : 'ручной';
+    row.innerHTML = `
+      <div class="adm-ban-id">${b.id}<span class="adm-ban-reason">${reasonLabel}</span></div>
+      <button class="btn tiny" type="button">разбанить</button>
+    `;
+    row.querySelector('button').addEventListener('click', () => {
+      unbanUser(b.id);
+      paintBanList();
+      toast(`ID ${b.id} разбанен`);
+    });
+    list.appendChild(row);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   PAINTING
+   ═══════════════════════════════════════════ */
 let last = {
   coins: -1, total: -1, energy: -1, maxE: -1, fillPct: -1,
   fillState: '', hint: '', lvlE: -1, passive: -1, rateIdle: null
@@ -1450,9 +1790,12 @@ function paintAll() {
   paintUps();
   paintRef();
   paintProfile();
+  paintAdmin();
 }
 
-/* ══════════════ LOOP ══════════════ */
+/* ═══════════════════════════════════════════
+   LOOP
+   ═══════════════════════════════════════════ */
 let lastFrame = 0;
 
 function loop(ts) {
@@ -1466,11 +1809,26 @@ function loop(ts) {
   S.lastUpdate = now;
   if (dt <= 0 || dt > 60_000) return;
 
+  // ── Anti-cheat: coin spike detection ──
+  const expectedMax =
+    tapPower() * TAP_CAP * (dt / 1000) +     // макс. от тапов
+    passiveHr() * dt / 3_600_000 +           // пассив
+    1;                                        // погрешность
+
+  const before = last.coins;
+  // считаем сколько прибавилось за этот тик
+  // (S.coins ещё не изменился, сравним с предыдущим рендером)
+  if (before >= 0 && S.coins - before > expectedMax * 50) {
+    registerStrike('coin spike');
+  }
+
+  // ── Energy regen ──
   if (S.energy < maxEnergy()) {
-    S.energy = Math.min(maxEnergy(), S.energy + REGEN * dt / 1000);
+    S.energy = Math.min(maxEnergy(), S.energy + REGEN_PER_SEC * dt / 1000);
     paintEnergy();
   }
 
+  // ── Passive income ──
   const p = passiveHr();
   if (p > 0) {
     const add = p * dt / 3_600_000;
@@ -1483,7 +1841,9 @@ function loop(ts) {
 }
 requestAnimationFrame(loop);
 
-/* ══════════════ SAVE / VISIBILITY ══════════════ */
+/* ═══════════════════════════════════════════
+   SAVE / VISIBILITY
+   ═══════════════════════════════════════════ */
 setInterval(save, 5000);
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) save();
@@ -1491,8 +1851,18 @@ document.addEventListener('visibilitychange', () => {
 });
 window.addEventListener('beforeunload', save);
 
-/* ══════════════ BOOT ══════════════ */
+/* ═══════════════════════════════════════════
+   BOOT
+   ═══════════════════════════════════════════ */
 (function boot() {
+
+  // 1. Проверка бана — самая первая
+  if (isBanned(userId())) {
+    showBanScreen();
+    return;
+  }
+
+  // 2. Загрузка состояния
   const had = load();
 
   if (had) {
@@ -1507,7 +1877,7 @@ window.addEventListener('beforeunload', save);
     S.lastUpdate = Date.now();
   }
 
-  // обработка входящего реферала
+  // 3. Обработка входящего реферала
   const sp = tg?.initDataUnsafe?.start_param;
   if (sp && sp.startsWith('ref_') && !S.referredBy) {
     const referrerId = sp.slice(4);
@@ -1520,8 +1890,10 @@ window.addEventListener('beforeunload', save);
     }
   }
 
+  // 4. Рендер
   buildUps();
   buildProfile();
+  buildAdmin();
   paintAll();
 })();
 
