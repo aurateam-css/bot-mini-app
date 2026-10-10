@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#08090a">
+<title>Cat Kombat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+  :root{
+    --bg:#08090a;
+    --bg-1:#0d0e10;
+    --bg-2:#16171a;
+    --bg-3:#1f2024;
+
+    --border:rgba(255,255,255,.06);
+    --border-2:rgba(255,255,255,.1);
+    --border-3:rgba(255,255,255,.16);
+
+    --text:#f7f8f8;
+    --text-2:#8a8f98;
+    --text-3:#5c6068;
+    --text-4:#3e4048;
+
+    --accent:#5e6ad2;
+    --accent-2:#7c85e0;
+    --green:#4cb782;
+    --amber:#e5a75c;
+    --red:#e5484d;
+
+    --r:10px;
+    --r-sm:7px;
+  }
+
+  html,body{height:100%;overflow:hidden}
+
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    font-feature-settings:'cv11','ss01','tnum';
+    background:var(--bg);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    font-size:14px;
+    line-height:1.5;
+    user-select:none;-webkit-user-select:none;
+    touch-action:manipulation;
+    overscroll-behavior:none;
+  }
+
+  .app{
+    height:100dvh;
+    max-width:440px;
+    margin:0 auto;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+
+  /* ── Header ── */
+  .app-hdr{
+    flex-shrink:0;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:12px;
+    padding:calc(env(safe-area-inset-top) + 14px) 16px 12px;
+  }
+
+  .brand{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px;letter-spacing:-.01em}
+  .brand-mark{
+    width:22px;height:22px;border-radius:6px;
+    background:var(--bg-2);
+    border:1px solid var(--border-2);
+    display:grid;place-items:center;font-size:12px;line-height:1;
+  }
+
+  .pill{
+    display:inline-flex;align-items:center;gap:6px;
+    height:26px;padding:0 10px;
+    border-radius:999px;
+    background:var(--bg-1);
+    border:1px solid var(--border);
+    font-size:12px;font-weight:500;
+    color:var(--text-2);
+    font-variant-numeric:tabular-nums;
+  }
+  .pill .dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
+  .pill b{color:var(--text);font-weight:600}
+  .pill .lbl{color:var(--text-3)}
+
+  /* ── Content / Panels ── */
+  .content{
+    flex:1;min-height:0;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .panel{
+    position:absolute;inset:0;
+    padding:0 16px 16px;
+    overflow-y:auto;overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+    opacity:0;
+    transform:translateY(6px);
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .18s ease,transform .18s ease;
+  }
+  .panel.active{
+    opacity:1;transform:translateY(0);
+    visibility:visible;pointer-events:auto;
+  }
+
+  .panel[data-tab="tap"]{
+    display:flex;flex-direction:column;
+    overflow:hidden;
+    padding:0 16px 12px;
+    gap:14px;
+  }
+
+  .panel-head{padding:4px 0 14px}
+  .panel-title{font-size:18px;font-weight:600;letter-spacing:-.02em;color:var(--text)}
+  .panel-sub{font-size:12.5px;color:var(--text-3);margin-top:2px;font-weight:400}
+
+  /* ── Score (tap panel) ── */
+  .score{
+    flex-shrink:0;
+    display:flex;flex-direction:column;align-items:center;
+    gap:5px;padding:8px 0 4px;
+  }
+
+  .balance{
+    font-size:52px;font-weight:600;
+    letter-spacing:-.035em;line-height:1;
+    color:var(--text);
+    font-variant-numeric:tabular-nums;
+    display:flex;align-items:baseline;gap:10px;
+  }
+  .balance .unit{
+    font-size:13px;font-weight:500;
+    color:var(--text-3);letter-spacing:0;text-transform:uppercase;
+  }
+
+  .sub{
+    font-size:12px;color:var(--text-3);
+    font-weight:500;font-variant-numeric:tabular-nums;
+  }
+  .sub b{color:var(--text-2);font-weight:500}
+
+  /* ── Stage (cat) ── */
+  .stage{
+    flex:1;min-height:0;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+    touch-action:manipulation;
+  }
+
+  .stage-inner{
+    position:relative;
+    width:min(220px,58vw);
+    max-height:100%;
+    aspect-ratio:1;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  .ring{
+    position:absolute;inset:0;
+    border-radius:50%;
+    border:1px solid var(--border);
+    pointer-events:none;
+  }
+  .ring::after{
+    content:'';
+    position:absolute;inset:-1px;
+    border-radius:50%;
+    border:1px solid transparent;
+    border-top-color:var(--border-3);
+    animation:spin 9s linear infinite;
+    will-change:transform;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .cat{
+    position:relative;
+    width:72%;height:72%;
+    z-index:1;
+    color:var(--text);
+    cursor:pointer;
+    transition:transform .09s cubic-bezier(.2,.9,.3,1);
+    will-change:transform;
+    transform:translateZ(0);
+  }
+  .cat.tapped{transform:scale(.94)}
+  .cat svg{width:100%;height:100%;display:block;overflow:visible}
+
+  /* ── Effects ── */
+  .ripple{
+    position:fixed;
+    width:8px;height:8px;
+    border-radius:50%;
+    border:1.5px solid var(--text-2);
+    pointer-events:none;z-index:9998;
+    transform:translate(-50%,-50%) scale(.5);
+    opacity:.9;
+    animation:rip .45s cubic-bezier(.2,.8,.3,1) forwards;
+    will-change:transform,opacity;
+  }
+  @keyframes rip{to{transform:translate(-50%,-50%) scale(9);opacity:0}}
+
+  .float{
+    position:fixed;
+    pointer-events:none;
+    font-size:15px;font-weight:600;
+    letter-spacing:-.02em;
+    color:var(--text);
+    font-variant-numeric:tabular-nums;
+    z-index:9999;
+    transform:translate(-50%,-50%);
+    animation:floatUp .8s cubic-bezier(.2,.8,.3,1) forwards;
+    will-change:transform,opacity;
+    contain:layout style paint;
+  }
+  @keyframes floatUp{
+    0%{transform:translate(-50%,-50%);opacity:0}
+    15%{opacity:1}
+    100%{transform:translate(-50%,-220%);opacity:0}
+  }
+
+  /* ── Energy ── */
+  .energy{
+    flex-shrink:0;
+    padding:14px 16px;
+    border-radius:var(--r);
+    background:var(--bg-1);
+    border:1px solid var(--border);
+    position:relative;
+  }
+
+  .energy-head{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:10px;
+  }
+
+  .energy-title{
+    display:flex;align-items:center;gap:8px;
+    font-size:11px;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-3);
+  }
+
+  .energy-title .ico{
+    width:20px;height:20px;
+    border-radius:6px;
+    background:var(--bg-2);
+    border:1px solid var(--border);
+    display:grid;place-items:center;
+    color:var(--text-2);
+    flex-shrink:0;
+  }
+  .energy-title .ico svg{width:11px;height:11px;display:block}
+
+  .energy-rate{
+    display:inline-flex;align-items:center;gap:5px;
+    font-size:11.5px;font-weight:500;
+    color:var(--text-3);
+    font-variant-numeric:tabular-nums;
+    letter-spacing:-.005em;
+  }
+  .energy-rate .pulse{
+    width:5px;height:5px;border-radius:50%;
+    background:var(--text-3);
+    animation:blip 1.8s ease-in-out infinite;
+  }
+  .energy-rate.idle .pulse{
+    background:var(--green);
+    animation:none;
+  }
+  @keyframes blip{
+    0%,100%{opacity:.35}
+    50%{opacity:1}
+  }
+
+  .energy-num{
+    display:flex;align-items:baseline;gap:6px;
+    font-variant-numeric:tabular-nums;
+    margin-bottom:8px;
+    line-height:1.1;
+  }
+  .energy-num b{
+    font-size:26px;font-weight:600;
+    letter-spacing:-.03em;
+    color:var(--text);
+  }
+  .energy-num span{
+    font-size:13px;font-weight:500;
+    color:var(--text-3);
+  }
+
+  .energy-track{
+    height:6px;
+    background:rgba(255,255,255,.05);
+    border-radius:999px;
+    overflow:hidden;
+    position:relative;
+  }
+
+  .energy-fill{
+    height:100%;
+    background:var(--text);
+    border-radius:999px;
+    transition:width .2s linear,background .25s ease;
+    will-change:width,background;
+    transform:translateZ(0);
+  }
+
+  .energy-fill[data-state="mid"]{background:#a0a4ad}
+  .energy-fill[data-state="low"]{background:var(--amber)}
+  .energy-fill[data-state="empty"]{background:var(--red)}
+
+  .energy-foot{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-top:9px;
+    font-size:11.5px;font-weight:500;
+    color:var(--text-3);
+    font-variant-numeric:tabular-nums;
+  }
+  .energy-foot .lvl{
+    display:inline-flex;align-items:center;gap:5px;
+  }
+  .energy-foot .lvl b{color:var(--text-2);font-weight:600}
+
+  .energy.depleted .energy-track{animation:deny .3s}
+  @keyframes deny{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-3px)}
+    75%{transform:translateX(3px)}
+  }
+
+  /* ── Section ── */
+  .sect{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 2px 8px;
+  }
+  .sect-title{
+    font-size:11px;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-3);
+  }
+  .sect-meta{
+    font-size:12px;font-weight:500;
+    color:var(--text-3);
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ── List ── */
+  .list{
+    display:flex;flex-direction:column;
+    border:1px solid var(--border);
+    border-radius:var(--r);
+    background:var(--bg-1);
+    overflow:hidden;
+  }
+
+  .row{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:12px 14px;
+    font-size:13px;
+  }
+  .row + .row{border-top:1px solid var(--border)}
+  .row .k{color:var(--text-2);font-weight:400}
+  .row .v{color:var(--text);font-weight:500;font-variant-numeric:tabular-nums}
+
+  /* ── Upgrade card ── */
+  .up{
+    display:flex;align-items:center;gap:12px;
+    padding:13px 14px;
+    position:relative;
+  }
+  .up + .up{border-top:1px solid var(--border)}
+
+  .up-ico{
+    flex-shrink:0;
+    width:36px;height:36px;
+    border-radius:9px;
+    background:var(--bg-2);
+    border:1px solid var(--border);
+    display:grid;place-items:center;
+    color:var(--text-2);
+  }
+  .up-ico svg{width:16px;height:16px;display:block}
+
+  .up-body{flex:1;min-width:0}
+  .up-top{
+    display:flex;align-items:baseline;justify-content:space-between;gap:8px;
+    margin-bottom:2px;
+  }
+  .up-name{font-size:13.5px;font-weight:500;color:var(--text);letter-spacing:-.005em;line-height:1.3}
+  .up-lv{
+    font-size:11px;font-weight:500;
+    color:var(--text-3);
+    font-variant-numeric:tabular-nums;
+    flex-shrink:0;
+  }
+  .up-meta{
+    font-size:12px;color:var(--text-3);
+    font-weight:400;
+    font-variant-numeric:tabular-nums;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .up-meta .next{color:var(--text-2)}
+  .up-meta .arr{color:var(--text-4);padding:0 4px}
+
+  /* ── Buttons ── */
+  .btn{
+    flex-shrink:0;
+    height:34px;
+    padding:0 13px;
+    border-radius:var(--r-sm);
+    border:1px solid var(--border-2);
+    background:rgba(255,255,255,.03);
+    color:var(--text);
+    font-family:inherit;
+    font-size:12.5px;font-weight:500;
+    letter-spacing:-.005em;
+    font-variant-numeric:tabular-nums;
+    cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;gap:5px;
+    transition:background .12s,border-color .12s,color .12s,transform .08s;
+    -webkit-appearance:none;appearance:none;
+    white-space:nowrap;
+    user-select:none;
+  }
+
+  .btn:disabled{
+    color:var(--text-3);
+    cursor:not-allowed;
+    background:transparent;
+    border-color:var(--border);
+  }
+
+  .btn.buy{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+  }
+  .btn.buy:active{background:var(--accent-2);border-color:var(--accent-2);transform:scale(.97)}
+
+  .btn .coin{
+    width:9px;height:9px;border-radius:50%;
+    background:currentColor;opacity:.5;
+    flex-shrink:0;
+  }
+  .btn.buy .coin{opacity:.85}
+
+  .btn.block{
+    width:100%;
+    height:40px;
+    justify-content:center;
+    font-size:13.5px;
+  }
+
+  .btn.danger{
+    color:#ff8d92;
+    border-color:rgba(229,72,77,.28);
+    background:rgba(229,72,77,.06);
+  }
+  .btn.danger:active{background:rgba(229,72,77,.12)}
+  .btn.danger.armed{
+    background:var(--red);
+    border-color:var(--red);
+    color:#fff;
+  }
+
+  /* ── Bonus card (friends) ── */
+  .bonus{
+    padding:20px 18px;
+    border-radius:var(--r);
+    background:var(--bg-1);
+    border:1px solid var(--border);
+    margin-bottom:12px;
+    position:relative;
+    overflow:hidden;
+  }
+  .bonus-val{
+    font-size:34px;font-weight:600;
+    letter-spacing:-.03em;
+    line-height:1.1;
+    font-variant-numeric:tabular-nums;
+    color:var(--text);
+  }
+  .bonus-lbl{
+    font-size:12.5px;color:var(--text-3);
+    font-weight:500;margin-top:4px;
+    letter-spacing:-.005em;
+  }
+
+  /* ── Ref card ── */
+  .ref{
+    padding:14px;
+    border-radius:var(--r);
+    background:var(--bg-1);
+    border:1px solid var(--border);
+    margin-bottom:12px;
+  }
+  .ref-lbl{
+    font-size:11px;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-3);
+    margin-bottom:8px;
+  }
+  .ref-link{
+    font-family:ui-monospace,'SF Mono',Menlo,monospace;
+    font-size:12px;
+    color:var(--text-2);
+    padding:9px 11px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:var(--r-sm);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    margin-bottom:10px;
+    font-variant-numeric:tabular-nums;
+  }
+  .ref-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+  /* ── Empty state ── */
+  .empty{
+    padding:32px 20px;
+    text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:8px;
+  }
+  .empty-ico{
+    width:36px;height:36px;
+    border-radius:10px;
+    background:var(--bg-2);
+    border:1px solid var(--border);
+    display:grid;place-items:center;
+    color:var(--text-3);
+    margin-bottom:2px;
+  }
+  .empty-ico svg{width:16px;height:16px;display:block}
+  .empty-title{
+    font-size:13.5px;font-weight:500;
+    color:var(--text-2);
+    letter-spacing:-.005em;
+  }
+  .empty-desc{
+    font-size:12px;color:var(--text-3);
+    max-width:240px;line-height:1.5;
+  }
+
+  /* ── Profile ── */
+  .profile{
+    display:flex;align-items:center;gap:14px;
+    padding:16px;
+    border-radius:var(--r);
+    background:var(--bg-1);
+    border:1px solid var(--border);
+    margin-bottom:12px;
+  }
+  .avatar{
+    flex-shrink:0;
+    width:56px;height:56px;
+    border-radius:14px;
+    background:var(--bg-2);
+    border:1px solid var(--border-2);
+    display:grid;place-items:center;
+    font-size:20px;font-weight:600;
+    color:var(--text-2);
+    overflow:hidden;
+    letter-spacing:-.02em;
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+  .profile-info{flex:1;min-width:0}
+  .profile-name{
+    font-size:15px;font-weight:600;
+    color:var(--text);letter-spacing:-.015em;
+    line-height:1.3;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .profile-handle{
+    font-size:12.5px;color:var(--text-3);
+    font-weight:400;margin-top:1px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--border);
+    border:1px solid var(--border);
+    border-radius:var(--r);
+    overflow:hidden;
+    margin-bottom:12px;
+  }
+  .stat{
+    background:var(--bg-1);
+    padding:14px 8px;
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    text-align:center;
+  }
+  .stat-v{
+    font-size:16px;font-weight:600;
+    color:var(--text);letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;
+    line-height:1.2;
+  }
+  .stat-l{
+    font-size:10.5px;font-weight:500;
+    color:var(--text-3);
+    letter-spacing:.02em;
+  }
+
+  .version{
+    text-align:center;
+    font-size:11px;color:var(--text-4);
+    padding:24px 0 8px;
+    font-weight:500;
+  }
+
+  /* ── Nav ── */
+  .nav{
+    flex-shrink:0;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:2px;
+    padding:6px 8px calc(env(safe-area-inset-bottom) + 6px);
+    border-top:1px solid var(--border);
+    background:var(--bg);
+  }
+
+  .nav-btn{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:3px;
+    padding:8px 4px;
+    background:transparent;border:none;
+    color:var(--text-3);
+    font-family:inherit;
+    font-size:10px;font-weight:500;
+    letter-spacing:.02em;
+    cursor:pointer;
+    border-radius:8px;
+    transition:color .12s;
+    -webkit-appearance:none;appearance:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .nav-btn svg{width:20px;height:20px;display:block}
+  .nav-btn.active{color:var(--text)}
+  .nav-btn:active{color:var(--text-2)}
+
+  /* ── Toast ── */
+  .toast{
+    position:fixed;
+    left:50%;
+    bottom:calc(env(safe-area-inset-bottom) + 78px);
+    transform:translate(-50%,12px);
+    padding:9px 14px;
+    border-radius:8px;
+    background:var(--bg-2);
+    border:1px solid var(--border-2);
+    color:var(--text);
+    font-size:12.5px;font-weight:500;
+    letter-spacing:-.005em;
+    box-shadow:0 8px 24px rgba(0,0,0,.5);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .18s ease,transform .18s cubic-bezier(.34,1.4,.64,1);
+    z-index:10000;
+    max-width:calc(100vw - 32px);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    font-variant-numeric:tabular-nums;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header class="app-hdr">
+    <div class="brand">
+      <div class="brand-mark">🐱</div>
+      <span>Cat Kombat</span>
+    </div>
+    <div class="pill">
+      <span class="dot"></span>
+      <b id="headerPassive">0</b>
+      <span class="lbl">/ час</span>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <!-- ═══ TAP ═══ -->
+    <section class="panel active" data-tab="tap">
+
+      <div class="score">
+        <div class="balance">
+          <span id="coins">0</span>
+          <span class="unit">монет</span>
+        </div>
+        <div class="sub">всего <b id="totalEarned">0</b></div>
+      </div>
+
+      <div class="stage" id="stage">
+        <div class="stage-inner">
+          <div class="ring"></div>
+          <svg class="cat" id="cat" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="cat">
+            <g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" stroke-linecap="round">
+              <path d="M30 44 L22 14 L52 32"/>
+              <path d="M90 44 L98 14 L68 32"/>
+              <circle cx="60" cy="70" r="38"/>
+            </g>
+            <g fill="currentColor">
+              <circle cx="48" cy="66" r="3.2"/>
+              <circle cx="72" cy="66" r="3.2"/>
+            </g>
+            <path d="M56 80 L64 80 L60 85 Z" fill="currentColor" opacity=".6"/>
+            <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".7">
+              <path d="M60 85 Q54 91 48 88"/>
+              <path d="M60 85 Q66 91 72 88"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="energy" id="energyBox">
+        <div class="energy-head">
+          <div class="energy-title">
+            <span class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+              </svg>
+            </span>
+            <span>Энергия</span>
+          </div>
+          <div class="energy-rate idle" id="energyRate">
+            <span class="pulse"></span>
+            <span>+3 / сек</span>
+          </div>
+        </div>
+
+        <div class="energy-num">
+          <b id="energy">1000</b>
+          <span>/ <span id="maxEnergy">1000</span></span>
+        </div>
+
+        <div class="energy-track">
+          <div class="energy-fill" id="energyFill" data-state="ok"></div>
+        </div>
+
+        <div class="energy-foot">
+          <span id="energyHint">полная</span>
+          <span class="lvl">ур. <b id="energyLvl">0</b></span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ═══ UPGRADES ═══ -->
+    <section class="panel" data-tab="upgrades">
+      <div class="panel-head">
+        <div class="panel-title">Улучшения</div>
+        <div class="panel-sub">Прокачивай кота и зарабатывай больше</div>
+      </div>
+      <div class="list" id="upList"></div>
+    </section>
+
+    <!-- ═══ FRIENDS ═══ -->
+    <section class="panel" data-tab="friends">
+      <div class="panel-head">
+        <div class="panel-title">Друзья</div>
+        <div class="panel-sub">Получай бонус за каждого приглашённого</div>
+      </div>
+
+      <div class="bonus">
+        <div class="bonus-val">+5 000</div>
+        <div class="bonus-lbl">монет за каждого друга</div>
+      </div>
+
+      <div class="ref">
+        <div class="ref-lbl">Твоя ссылка</div>
+        <div class="ref-link" id="refLink">—</div>
+        <div class="ref-actions">
+          <button class="btn" type="button" id="copyBtn">Копировать</button>
+          <button class="btn buy" type="button" id="shareBtn">Пригласить</button>
+        </div>
+      </div>
+
+      <div class="sect">
+        <span class="sect-title">Приглашено</span>
+        <span class="sect-meta" id="friendCount">0 друзей</span>
+      </div>
+
+      <div class="list">
+        <div class="empty">
+          <div class="empty-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="8" r="3.5"/>
+              <path d="M2.5 20a6.5 6.5 0 0 1 13 0"/>
+              <path d="M16 5.5a3 3 0 0 1 0 5.5"/>
+              <path d="M15 13.5a5 5 0 0 1 6.5 5"/>
+            </svg>
+          </div>
+          <div class="empty-title">Пока пусто</div>
+          <div class="empty-desc">Отправь ссылку другу — как только он зайдёт, ты получишь бонус</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ PROFILE ═══ -->
+    <section class="panel" data-tab="profile">
+      <div class="panel-head">
+        <div class="panel-title">Профиль</div>
+      </div>
+
+      <div class="profile">
+        <div class="avatar" id="avatar">C</div>
+        <div class="profile-info">
+          <div class="profile-name" id="userName">Гость</div>
+          <div class="profile-handle" id="userHandle">—</div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-v" id="statEarned">0</div>
+          <div class="stat-l">всего</div>
+        </div>
+        <div class="stat">
+          <div class="stat-v" id="statTaps">0</div>
+          <div class="stat-l">тапов</div>
+        </div>
+        <div class="stat">
+          <div class="stat-v" id="statLvl">0</div>
+          <div class="stat-l">уровней</div>
+        </div>
+        <div class="stat">
+          <div class="stat-v" id="statFriends">0</div>
+          <div class="stat-l">друзей</div>
+        </div>
+      </div>
+
+      <div class="sect">
+        <span class="sect-title">Статистика</span>
+      </div>
+
+      <div class="list">
+        <div class="row"><span class="k">Ранг</span><span class="v" id="statRank">Новичок</span></div>
+        <div class="row"><span class="k">Пассивный доход</span><span class="v" id="statPassive">0 / час</span></div>
+        <div class="row"><span class="k">Начало игры</span><span class="v" id="statJoined">—</span></div>
+        <div class="row"><span class="k">Сила тапа</span><span class="v" id="statTapPower">+1</span></div>
+      </div>
+
+      <div class="sect">
+        <span class="sect-title">Управление</span>
+      </div>
+
+      <button class="btn danger block" type="button" id="resetBtn">Сбросить прогресс</button>
+
+      <div class="version">Cat Kombat v1.0 · сделано с 🐱</div>
+    </section>
+
+  </main>
+
+  <nav class="nav">
+    <button class="nav-btn active" data-tab="tap" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="8"/>
+        <circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none"/>
+      </svg>
+      <span>Тап</span>
+    </button>
+    <button class="nav-btn" data-tab="upgrades" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 19V5"/>
+        <path d="M5 12l7-7 7 7"/>
+      </svg>
+      <span>Апгрейд</span>
+    </button>
+    <button class="nav-btn" data-tab="friends" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="3.5"/>
+        <path d="M2.5 20a6.5 6.5 0 0 1 13 0"/>
+        <path d="M16 5.5a3 3 0 0 1 0 5.5"/>
+        <path d="M15 13.5a5 5 0 0 1 6.5 5"/>
+      </svg>
+      <span>Друзья</span>
+    </button>
+    <button class="nav-btn" data-tab="profile" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 21a8 8 0 0 1 16 0"/>
+      </svg>
+      <span>Профиль</span>
+    </button>
+  </nav>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+'use strict';
+
+/* ══════════════ TELEGRAM ══════════════ */
+const tg = window.Telegram?.WebApp;
+try {
+  tg?.ready(); tg?.expand();
+  tg?.setHeaderColor?.('#08090a');
+  tg?.setBackgroundColor?.('#08090a');
+  tg?.disableVerticalSwipes?.();
+} catch {}
+
+const haptic = s => {
+  try {
+    if (tg?.HapticFeedback) return tg.HapticFeedback.impactOccurred(s || 'light');
+    navigator.vibrate?.(s === 'medium' ? 18 : 8);
+  } catch {}
+};
+
+const notify = t => { try { tg?.HapticFeedback?.notificationOccurred?.(t); } catch {} };
+
+/* ══════════════ CONFIG ══════════════ */
+const BOT_USERNAME = 'cat_combat_tapbot';  // ← замени на username своего бота (без @)
+const KEY          = 'cat_kombat_v4';
+const REGEN        = 3;
+const TAP_CAP      = 25;
+const OFFLINE_CAP  = 3 * 3600_000;
+const REF_BONUS    = 5000;               // бонус за друга
+const MAX_FLOAT    = 10;
+
+const DEFS = {
+  tap:     { name:'Сила тапа',       base:100, mult:1.8 },
+  energy:  { name:'Лимит энергии',   base:200, mult:1.8 },
+  passive: { name:'Пассивный доход', base:500, mult:1.9 }
+};
+
+const ICONS = {
+  tap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none"/></svg>',
+  energy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>',
+  passive: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>'
+};
+
+/* ══════════════ STATE ══════════════ */
+const fresh = () => ({
+  coins: 0,
+  totalEarned: 0,
+  energy: 1000,
+  taps: 0,
+  upgrades: { tap:0, energy:0, passive:0 },
+  referredBy: null,
+  invitedFriends: [],
+  firstSeen: Date.now(),
+  lastUpdate: Date.now(),
+  lastSave: Date.now()
+});
+
+let S = fresh();
+
+const tapPower  = () => 1 + S.upgrades.tap;
+const maxEnergy = () => 1000 + S.upgrades.energy * 500;
+const passiveHr = () => S.upgrades.passive * 100;
+const costOf    = id => Math.floor(DEFS[id].base * DEFS[id].mult ** S.upgrades[id]);
+const totalLvl  = () => S.upgrades.tap + S.upgrades.energy + S.upgrades.passive;
+
+/* ══════════════ FORMAT ══════════════ */
+function fmt(n) {
+  n = Math.floor(n);
+  if (n < 1e6) return n.toLocaleString('ru-RU');
+  if (n < 1e9) return (n / 1e6).toFixed(2).replace(/\.?0+$/, '') + 'M';
+  if (n < 1e12) return (n / 1e9).toFixed(2).replace(/\.?0+$/, '') + 'B';
+  return (n / 1e12).toFixed(2).replace(/\.?0+$/, '') + 'T';
+}
+
+function timeToFull() {
+  const need = maxEnergy() - S.energy;
+  if (need <= 0.5) return null;
+  const secs = Math.ceil(need / REGEN);
+  if (secs < 60) return secs + ' с';
+  const m = Math.floor(secs / 60);
+  const s = secs % 60;
+  return m + ':' + String(s).padStart(2, '0');
+}
+
+function energyState() {
+  if (S.energy <= 0.5) return 'empty';
+  const pct = S.energy / maxEnergy();
+  if (pct <= 0.15) return 'low';
+  if (pct <= 0.5) return 'mid';
+  return 'ok';
+}
+
+function rank() {
+  const t = S.totalEarned;
+  if (t >= 10_000_000) return 'Мегакот';
+  if (t >= 1_000_000)  return 'Кот-магнат';
+  if (t >= 100_000)    return 'Котофей';
+  if (t >= 10_000)     return 'Кот';
+  if (t >= 1_000)      return 'Котёнок';
+  return 'Новичок';
+}
+
+/* ══════════════ PERSISTENCE ══════════════ */
+let saveTimer = 0;
+const scheduleSave = () => {
+  if (saveTimer) return;
+  saveTimer = setTimeout(() => { saveTimer = 0; save(); }, 1200);
+};
+
+function save() {
+  S.lastSave = Date.now();
+  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {}
+}
+
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (!raw) return false;
+    const d = JSON.parse(raw);
+    S = Object.assign(fresh(), d);
+    S.upgrades = Object.assign({ tap:0, energy:0, passive:0 }, d.upgrades || {});
+    if (!Array.isArray(S.invitedFriends)) S.invitedFriends = [];
+    return true;
+  } catch { return false; }
+}
+
+function applyOffline() {
+  const now = Date.now();
+  const elapsed = Math.max(0, now - (S.lastSave || now));
+  const capped = Math.min(elapsed, OFFLINE_CAP);
+  const earned = passiveHr() * capped / 3_600_000;
+  if (earned > 0) { S.coins += earned; S.totalEarned += earned; }
+  S.energy = Math.min(maxEnergy(), S.energy + REGEN * capped / 1000);
+  S.lastUpdate = now;
+  return { earned, elapsed };
+}
+
+/* ══════════════ ANTI-CHEAT ══════════════ */
+let tapLog = [];
+function tapAllowed() {
+  const t = performance.now();
+  tapLog = tapLog.filter(x => t - x < 1000);
+  if (tapLog.length >= TAP_CAP) return false;
+  tapLog.push(t);
+  return true;
+}
+
+/* ══════════════ DOM ══════════════ */
+const $ = id => document.getElementById(id);
+const el = {
+  coins: $('coins'),
+  totalEarned: $('totalEarned'),
+  headerPassive: $('headerPassive'),
+  energy: $('energy'),
+  maxEnergy: $('maxEnergy'),
+  energyFill: $('energyFill'),
+  energyBox: $('energyBox'),
+  energyHint: $('energyHint'),
+  energyLvl: $('energyLvl'),
+  energyRate: $('energyRate'),
+  stage: $('stage'),
+  cat: $('cat'),
+  upList: $('upList'),
+  toast: $('toast'),
+  // friends
+  refLink: $('refLink'),
+  copyBtn: $('copyBtn'),
+  shareBtn: $('shareBtn'),
+  friendCount: $('friendCount'),
+  // profile
+  avatar: $('avatar'),
+  userName: $('userName'),
+  userHandle: $('userHandle'),
+  statEarned: $('statEarned'),
+  statTaps: $('statTaps'),
+  statLvl: $('statLvl'),
+  statFriends: $('statFriends'),
+  statRank: $('statRank'),
+  statPassive: $('statPassive'),
+  statJoined: $('statJoined'),
+  statTapPower: $('statTapPower'),
+  resetBtn: $('resetBtn')
+};
+
+/* ══════════════ TABS ══════════════ */
+let activeTab = 'tap';
+const panels = document.querySelectorAll('.panel');
+const navBtns = document.querySelectorAll('.nav-btn');
+
+function switchTab(name) {
+  if (name === activeTab) return;
+  activeTab = name;
+  panels.forEach(p => p.classList.toggle('active', p.dataset.tab === name));
+  navBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  haptic('light');
+}
+
+navBtns.forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+
+/* ══════════════ EFFECTS ══════════════ */
+let activeFloats = 0;
+
+function spawnRipple(x, y) {
+  const n = document.createElement('div');
+  n.className = 'ripple';
+  n.style.left = x + 'px';
+  n.style.top = y + 'px';
+  document.body.appendChild(n);
+  setTimeout(() => n.remove(), 470);
+}
+
+function spawnFloat(x, y, val) {
+  if (activeFloats >= MAX_FLOAT) return;
+  activeFloats++;
+  const n = document.createElement('div');
+  n.className = 'float';
+  n.textContent = '+' + fmt(val);
+  n.style.left = x + 'px';
+  n.style.top = y + 'px';
+  document.body.appendChild(n);
+  setTimeout(() => { n.remove(); activeFloats--; }, 820);
+}
+
+let toastTimer = 0;
+function toast(msg) {
+  el.toast.textContent = msg;
+  el.toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.toast.classList.remove('show'), 2000);
+}
+
+/* ══════════════ TAP ══════════════ */
+let catTimer = 0;
+
+function doTap(x, y) {
+  if (!tapAllowed()) return;
+
+  if (S.energy < 1) {
+    el.energyBox.classList.remove('depleted');
+    void el.energyBox.offsetWidth;
+    el.energyBox.classList.add('depleted');
+    haptic('medium');
+    return;
+  }
+
+  const gain = tapPower();
+  S.energy -= 1;
+  S.coins += gain;
+  S.totalEarned += gain;
+  S.taps += 1;
+
+  spawnRipple(x, y);
+  spawnFloat(x, y, gain);
+  haptic('light');
+
+  el.cat.classList.add('tapped');
+  clearTimeout(catTimer);
+  catTimer = setTimeout(() => el.cat.classList.remove('tapped'), 90);
+
+  paintScore();
+  paintEnergy();
+  paintUps();
+  scheduleSave();
+}
+
+el.stage.addEventListener('pointerdown', e => {
+  if (!e.isPrimary) return;
+  e.preventDefault();
+  doTap(e.clientX, e.clientY);
+}, { passive: false });
+
+if (!window.PointerEvent) {
+  el.stage.addEventListener('touchstart', e => {
+    const t = e.changedTouches[0];
+    if (t) doTap(t.clientX, t.clientY);
+  }, { passive: true });
+}
+
+/* ══════════════ UPGRADES ══════════════ */
+const cards = {};
+
+function effectText(id, lv) {
+  if (id === 'tap')     return '+' + (1 + lv) + ' за тап';
+  if (id === 'energy')  return (1000 + lv * 500).toLocaleString('ru-RU') + ' макс.';
+  if (id === 'passive') return (lv * 100) + '/час';
+  return '';
+}
+
+function buildUps() {
+  el.upList.innerHTML = '';
+  for (const id of ['tap', 'energy', 'passive']) {
+    const d = DEFS[id];
+    const card = document.createElement('div');
+    card.className = 'up';
+    card.innerHTML =
+      `<div class="up-ico">${ICONS[id]}</div>
+       <div class="up-body">
+         <div class="up-top">
+           <span class="up-name">${d.name}</span>
+           <span class="up-lv">Ур. 0</span>
+         </div>
+         <div class="up-meta">
+           <span class="cur"></span><span class="arr">→</span><span class="next"></span>
+         </div>
+       </div>
+       <button class="btn" type="button">
+         <span class="coin"></span>
+         <span class="c">0</span>
+       </button>`;
+    const btn = card.querySelector('.btn');
+    btn.addEventListener('click', () => buy(id));
+    el.upList.appendChild(card);
+
+    cards[id] = {
+      root: card,
+      lv:   card.querySelector('.up-lv'),
+      cur:  card.querySelector('.cur'),
+      next: card.querySelector('.next'),
+      btn,
+      btnCost: btn.querySelector('.c'),
+      lastLv: -1, lastCost: -1, lastBuyable: null
+    };
+  }
+}
+
+function paintUps() {
+  for (const id of ['tap', 'energy', 'passive']) {
+    const c = cards[id];
+    if (!c) continue;
+
+    const cost = costOf(id);
+    const lv = S.upgrades[id];
+    const can = S.coins >= cost;
+
+    if (lv !== c.lastLv) {
+      c.lv.textContent = 'Ур. ' + lv;
+      c.cur.textContent = effectText(id, lv);
+      c.next.textContent = effectText(id, lv + 1);
+      c.lastLv = lv;
+    }
+    if (cost !== c.lastCost) {
+      c.btnCost.textContent = fmt(cost);
+      c.lastCost = cost;
+    }
+    if (can !== c.lastBuyable) {
+      c.btn.disabled = !can;
+      c.btn.classList.toggle('buy', can);
+      c.lastBuyable = can;
+    }
+  }
+}
+
+function buy(id) {
+  const cost = costOf(id);
+  if (S.coins < cost) { haptic('medium'); return; }
+
+  S.coins -= cost;
+  S.upgrades[id] += 1;
+  if (id === 'energy') S.energy = Math.min(maxEnergy(), S.energy + 500);
+
+  haptic('medium');
+  notify('success');
+  toast(`${DEFS[id].name} → ур. ${S.upgrades[id]}`);
+
+  paintScore();
+  paintEnergy();
+  paintUps();
+  paintHeader();
+  paintProfile();
+  save();
+}
+
+/* ══════════════ REFERRAL ══════════════ */
+function userId() {
+  return tg?.initDataUnsafe?.user?.id || 'guest';
+}
+
+function refLink() {
+  return `https://t.me/${BOT_USERNAME}?start=ref_${userId()}`;
+}
+
+function shortRefLink() {
+  return `t.me/${BOT_USERNAME}?start=ref_${userId()}`;
+}
+
+function paintRef() {
+  el.refLink.textContent = shortRefLink();
+  const n = S.invitedFriends.length;
+  el.friendCount.textContent = n === 0 ? '0 друзей'
+                            : n === 1 ? '1 друг'
+                            : n + ' друзей';
+}
+
+async function copyRef() {
+  const link = refLink();
+  try {
+    await navigator.clipboard.writeText(link);
+    notify('success');
+    toast('Ссылка скопирована');
+  } catch {
+    const ta = document.createElement('textarea');
+    ta.value = link;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); toast('Ссылка скопирована'); }
+    catch { toast('Не удалось скопировать'); }
+    ta.remove();
+  }
+}
+
+function shareRef() {
+  const link = refLink();
+  const text = 'Заходи в Cat Kombat — тапай кота, зарабатывай монеты 🐱';
+  const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
+  haptic('light');
+  if (tg?.openTelegramLink) tg.openTelegramLink(shareUrl);
+  else window.open(shareUrl, '_blank', 'noopener');
+}
+
+el.copyBtn.addEventListener('click', copyRef);
+el.shareBtn.addEventListener('click', shareRef);
+
+/* ══════════════ PROFILE ══════════════ */
+function buildProfile() {
+  const u = tg?.initDataUnsafe?.user;
+
+  if (u) {
+    const name = [u.first_name, u.last_name].filter(Boolean).join(' ').trim() || 'Кот';
+    el.userName.textContent = name;
+    el.userHandle.textContent = u.username ? '@' + u.username : 'id ' + u.id;
+
+    if (u.photo_url) {
+      el.avatar.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = u.photo_url;
+      img.alt = '';
+      img.referrerPolicy = 'no-referrer';
+      img.onerror = () => { el.avatar.textContent = name[0].toUpperCase(); };
+      el.avatar.appendChild(img);
+    } else {
+      el.avatar.textContent = name[0].toUpperCase();
+    }
+  } else {
+    el.userName.textContent = 'Гость';
+    el.userHandle.textContent = 'открой через Telegram';
+    el.avatar.textContent = 'C';
+  }
+
+  const joined = new Date(S.firstSeen).toLocaleDateString('ru-RU', {
+    day: 'numeric', month: 'short', year: 'numeric'
+  });
+  el.statJoined.textContent = joined;
+}
+
+function paintProfile() {
+  el.statEarned.textContent = fmt(S.totalEarned);
+  el.statTaps.textContent = fmt(S.taps);
+  el.statLvl.textContent = totalLvl();
+  el.statFriends.textContent = S.invitedFriends.length;
+  el.statRank.textContent = rank();
+  el.statPassive.textContent = fmt(passiveHr()) + ' / час';
+  el.statTapPower.textContent = '+' + fmt(tapPower());
+}
+
+/* ══════════════ RESET ══════════════ */
+let resetArmed = false;
+let resetTimer = 0;
+
+el.resetBtn.addEventListener('click', () => {
+  if (!resetArmed) {
+    resetArmed = true;
+    el.resetBtn.classList.add('armed');
+    el.resetBtn.textContent = 'Нажми ещё раз';
+    haptic('medium');
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => {
+      resetArmed = false;
+      el.resetBtn.classList.remove('armed');
+      el.resetBtn.textContent = 'Сбросить прогресс';
+    }, 3000);
+    return;
+  }
+  clearTimeout(resetTimer);
+  try { localStorage.removeItem(KEY); } catch {}
+  notify('success');
+  setTimeout(() => location.reload(), 150);
+});
+
+/* ══════════════ PAINTING ══════════════ */
+let last = {
+  coins: -1, total: -1, energy: -1, maxE: -1, fillPct: -1,
+  fillState: '', hint: '', lvlE: -1, passive: -1, rateIdle: null
+};
+
+function paintScore() {
+  const c = Math.floor(S.coins);
+  if (c !== last.coins) { el.coins.textContent = fmt(c); last.coins = c; }
+  const t = Math.floor(S.totalEarned);
+  if (t !== last.total) { el.totalEarned.textContent = fmt(t); last.total = t; }
+}
+
+function paintEnergy() {
+  const cur = Math.floor(S.energy);
+  const max = maxEnergy();
+
+  if (cur !== last.energy) { el.energy.textContent = fmt(cur); last.energy = cur; }
+  if (max !== last.maxE)   { el.maxEnergy.textContent = fmt(max); last.maxE = max; }
+
+  const pct = Math.round((S.energy / max) * 100);
+  if (pct !== last.fillPct) { el.energyFill.style.width = pct + '%'; last.fillPct = pct; }
+
+  const st = energyState();
+  if (st !== last.fillState) {
+    el.energyFill.dataset.state = st;
+    last.fillState = st;
+  }
+
+  const hint = timeToFull();
+  const hintText = hint ? `до полной ${hint}` : 'полная';
+  if (hintText !== last.hint) { el.energyHint.textContent = hintText; last.hint = hintText; }
+
+  const lvl = S.upgrades.energy;
+  if (lvl !== last.lvlE) { el.energyLvl.textContent = lvl; last.lvlE = lvl; }
+
+  const idle = hint === null;
+  if (idle !== last.rateIdle) {
+    el.energyRate.classList.toggle('idle', idle);
+    last.rateIdle = idle;
+  }
+}
+
+function paintHeader() {
+  const p = passiveHr();
+  if (p !== last.passive) { el.headerPassive.textContent = fmt(p); last.passive = p; }
+}
+
+function paintAll() {
+  paintScore();
+  paintEnergy();
+  paintHeader();
+  paintUps();
+  paintRef();
+  paintProfile();
+}
+
+/* ══════════════ LOOP ══════════════ */
+let lastFrame = 0;
+
+function loop(ts) {
+  requestAnimationFrame(loop);
+  if (document.hidden) return;
+  if (ts - lastFrame < 100) return;
+  lastFrame = ts;
+
+  const now = Date.now();
+  const dt = now - S.lastUpdate;
+  S.lastUpdate = now;
+  if (dt <= 0 || dt > 60_000) return;
+
+  if (S.energy < maxEnergy()) {
+    S.energy = Math.min(maxEnergy(), S.energy + REGEN * dt / 1000);
+    paintEnergy();
+  }
+
+  const p = passiveHr();
+  if (p > 0) {
+    const add = p * dt / 3_600_000;
+    S.coins += add;
+    S.totalEarned += add;
+    paintScore();
+    paintUps();
+    paintProfile();
+  }
+}
+requestAnimationFrame(loop);
+
+/* ══════════════ SAVE / VISIBILITY ══════════════ */
+setInterval(save, 5000);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) save();
+  else { applyOffline(); paintAll(); }
+});
+window.addEventListener('beforeunload', save);
+
+/* ══════════════ BOOT ══════════════ */
+(function boot() {
+  const had = load();
+
+  if (had) {
+    const { earned, elapsed } = applyOffline();
+    if (earned > 60 && elapsed > 60_000) {
+      const mins = Math.floor(elapsed / 60_000);
+      const label = mins < 60 ? `${mins} мин` : `${(mins / 60).toFixed(1)} ч`;
+      setTimeout(() => toast(`+${fmt(earned)} монет за ${label} отсутствия`), 600);
+    }
+  } else {
+    S.energy = maxEnergy();
+    S.lastUpdate = Date.now();
+  }
+
+  // обработка входящего реферала
+  const sp = tg?.initDataUnsafe?.start_param;
+  if (sp && sp.startsWith('ref_') && !S.referredBy) {
+    const referrerId = sp.slice(4);
+    if (String(referrerId) !== String(userId())) {
+      S.referredBy = referrerId;
+      S.coins += REF_BONUS;
+      S.totalEarned += REF_BONUS;
+      setTimeout(() => toast(`+${fmt(REF_BONUS)} за приглашение 🎉`), 900);
+      save();
+    }
+  }
+
+  buildUps();
+  buildProfile();
+  paintAll();
+})();
+
+})();
+</script>
+</body>
+</html>
