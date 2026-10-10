@@ -13,24 +13,12 @@
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
   :root{
-    --bg:#08090a;
-    --bg-1:#0d0e10;
-    --bg-2:#16171a;
-    --bg-3:#1f2024;
-    --border:rgba(255,255,255,.06);
-    --border-2:rgba(255,255,255,.1);
-    --border-3:rgba(255,255,255,.16);
-    --text:#f7f8f8;
-    --text-2:#8a8f98;
-    --text-3:#5c6068;
-    --text-4:#3e4048;
-    --accent:#5e6ad2;
-    --accent-2:#7c85e0;
-    --green:#4cb782;
-    --amber:#e5a75c;
-    --red:#e5484d;
-    --r:10px;
-    --r-sm:7px;
+    --bg:#08090a;--bg-1:#0d0e10;--bg-2:#16171a;--bg-3:#1f2024;
+    --border:rgba(255,255,255,.06);--border-2:rgba(255,255,255,.1);--border-3:rgba(255,255,255,.16);
+    --text:#f7f8f8;--text-2:#8a8f98;--text-3:#5c6068;--text-4:#3e4048;
+    --accent:#5e6ad2;--accent-2:#7c85e0;
+    --green:#4cb782;--amber:#e5a75c;--red:#e5484d;
+    --r:10px;--r-sm:7px;
   }
 
   html,body{height:100%;overflow:hidden}
@@ -38,324 +26,108 @@
   body{
     font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
     font-feature-settings:'cv11','ss01','tnum';
-    background:var(--bg);
-    color:var(--text);
+    background:var(--bg);color:var(--text);
     -webkit-font-smoothing:antialiased;
-    font-size:14px;
-    line-height:1.5;
+    font-size:14px;line-height:1.5;
     user-select:none;-webkit-user-select:none;
-    touch-action:manipulation;
-    overscroll-behavior:none;
+    touch-action:manipulation;overscroll-behavior:none;
   }
 
-  .app{
-    height:100dvh;
-    max-width:440px;
-    margin:0 auto;
-    display:flex;
-    flex-direction:column;
-    overflow:hidden;
-  }
+  .app{height:100dvh;max-width:440px;margin:0 auto;display:flex;flex-direction:column;overflow:hidden}
 
-  /* ── Header ── */
-  .app-hdr{
-    flex-shrink:0;
-    display:flex;align-items:center;justify-content:space-between;
-    gap:12px;
-    padding:calc(env(safe-area-inset-top) + 14px) 16px 12px;
-  }
-
+  /* Header */
+  .app-hdr{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(env(safe-area-inset-top) + 14px) 16px 12px}
   .brand{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px;letter-spacing:-.01em}
-  .brand-mark{
-    width:22px;height:22px;border-radius:6px;
-    background:var(--bg-2);border:1px solid var(--border-2);
-    display:grid;place-items:center;font-size:12px;line-height:1;
-  }
-  .brand-mark.admin{
-    background:rgba(94,106,210,.18);
-    border-color:rgba(94,106,210,.45);
-    color:#a8aff5;
-  }
-
-  .pill{
-    display:inline-flex;align-items:center;gap:6px;
-    height:26px;padding:0 10px;
-    border-radius:999px;
-    background:var(--bg-1);border:1px solid var(--border);
-    font-size:12px;font-weight:500;color:var(--text-2);
-    font-variant-numeric:tabular-nums;
-  }
+  .brand-mark{width:22px;height:22px;border-radius:6px;background:var(--bg-2);border:1px solid var(--border-2);display:grid;place-items:center;font-size:12px;line-height:1}
+  .brand-mark.admin{background:rgba(94,106,210,.18);border-color:rgba(94,106,210,.45);color:#a8aff5}
+  .pill{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:999px;background:var(--bg-1);border:1px solid var(--border);font-size:12px;font-weight:500;color:var(--text-2);font-variant-numeric:tabular-nums}
   .pill .dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
   .pill b{color:var(--text);font-weight:600}
   .pill .lbl{color:var(--text-3)}
 
-  /* ── Content ── */
+  /* Content */
   .content{flex:1;min-height:0;position:relative;overflow:hidden}
-
-  .panel{
-    position:absolute;inset:0;
-    padding:0 16px 16px;
-    overflow-y:auto;overflow-x:hidden;
-    -webkit-overflow-scrolling:touch;
-    overscroll-behavior:contain;
-    opacity:0;transform:translateY(6px);
-    visibility:hidden;pointer-events:none;
-    transition:opacity .18s ease,transform .18s ease;
-  }
+  .panel{position:absolute;inset:0;padding:0 16px 16px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;opacity:0;transform:translateY(6px);visibility:hidden;pointer-events:none;transition:opacity .18s ease,transform .18s ease}
   .panel.active{opacity:1;transform:translateY(0);visibility:visible;pointer-events:auto}
-
-  .panel[data-tab="tap"]{
-    display:flex;flex-direction:column;
-    overflow:hidden;padding:0 16px 12px;gap:14px;
-  }
-
+  .panel[data-tab="tap"]{display:flex;flex-direction:column;overflow:hidden;padding:0 16px 12px;gap:14px}
   .panel-head{padding:4px 0 14px}
   .panel-title{font-size:18px;font-weight:600;letter-spacing:-.02em;color:var(--text)}
   .panel-sub{font-size:12.5px;color:var(--text-3);margin-top:2px;font-weight:400}
 
-  /* ── Score ── */
-  .score{
-    flex-shrink:0;
-    display:flex;flex-direction:column;align-items:center;
-    gap:5px;padding:8px 0 4px;
-  }
-  .balance{
-    font-size:52px;font-weight:600;
-    letter-spacing:-.035em;line-height:1;
-    font-variant-numeric:tabular-nums;
-    display:flex;align-items:baseline;gap:10px;
-  }
-  .balance .unit{
-    font-size:13px;font-weight:500;
-    color:var(--text-3);letter-spacing:0;text-transform:uppercase;
-  }
+  /* Score */
+  .score{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 0 4px}
+  .balance{font-size:52px;font-weight:600;letter-spacing:-.035em;line-height:1;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:10px}
+  .balance .unit{font-size:13px;font-weight:500;color:var(--text-3);letter-spacing:0;text-transform:uppercase}
   .sub{font-size:12px;color:var(--text-3);font-weight:500;font-variant-numeric:tabular-nums}
   .sub b{color:var(--text-2);font-weight:500}
 
-  /* ── Stage ── */
-  .stage{
-    flex:1;min-height:0;
-    display:flex;align-items:center;justify-content:center;
-    position:relative;touch-action:manipulation;
-  }
-  .stage-inner{
-    position:relative;
-    width:min(220px,58vw);max-height:100%;
-    aspect-ratio:1;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .ring{
-    position:absolute;inset:0;
-    border-radius:50%;border:1px solid var(--border);
-    pointer-events:none;
-  }
-  .ring::after{
-    content:'';position:absolute;inset:-1px;
-    border-radius:50%;border:1px solid transparent;
-    border-top-color:var(--border-3);
-    animation:spin 9s linear infinite;
-    will-change:transform;
-  }
+  /* Stage */
+  .stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;position:relative;touch-action:manipulation}
+  .stage-inner{position:relative;width:min(220px,58vw);max-height:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+  .ring{position:absolute;inset:0;border-radius:50%;border:1px solid var(--border);pointer-events:none}
+  .ring::after{content:'';position:absolute;inset:-1px;border-radius:50%;border:1px solid transparent;border-top-color:var(--border-3);animation:spin 9s linear infinite;will-change:transform}
   @keyframes spin{to{transform:rotate(360deg)}}
-
-  .cat{
-    position:relative;width:72%;height:72%;
-    z-index:1;color:var(--text);cursor:pointer;
-    transition:transform .09s cubic-bezier(.2,.9,.3,1);
-    will-change:transform;transform:translateZ(0);
-  }
+  .cat{position:relative;width:72%;height:72%;z-index:1;color:var(--text);cursor:pointer;transition:transform .09s cubic-bezier(.2,.9,.3,1);will-change:transform;transform:translateZ(0)}
   .cat.tapped{transform:scale(.94)}
   .cat svg{width:100%;height:100%;display:block;overflow:visible}
 
-  /* ── Effects ── */
-  .ripple{
-    position:fixed;width:8px;height:8px;border-radius:50%;
-    border:1.5px solid var(--text-2);
-    pointer-events:none;z-index:9998;
-    transform:translate(-50%,-50%) scale(.5);
-    opacity:.9;
-    animation:rip .45s cubic-bezier(.2,.8,.3,1) forwards;
-    will-change:transform,opacity;
-  }
+  /* Effects */
+  .ripple{position:fixed;width:8px;height:8px;border-radius:50%;border:1.5px solid var(--text-2);pointer-events:none;z-index:9998;transform:translate(-50%,-50%) scale(.5);opacity:.9;animation:rip .45s cubic-bezier(.2,.8,.3,1) forwards;will-change:transform,opacity}
   @keyframes rip{to{transform:translate(-50%,-50%) scale(9);opacity:0}}
+  .float{position:fixed;pointer-events:none;font-size:15px;font-weight:600;letter-spacing:-.02em;color:var(--text);font-variant-numeric:tabular-nums;z-index:9999;transform:translate(-50%,-50%);animation:floatUp .8s cubic-bezier(.2,.8,.3,1) forwards;will-change:transform,opacity;contain:layout style paint}
+  @keyframes floatUp{0%{transform:translate(-50%,-50%);opacity:0}15%{opacity:1}100%{transform:translate(-50%,-220%);opacity:0}}
 
-  .float{
-    position:fixed;pointer-events:none;
-    font-size:15px;font-weight:600;
-    letter-spacing:-.02em;color:var(--text);
-    font-variant-numeric:tabular-nums;
-    z-index:9999;transform:translate(-50%,-50%);
-    animation:floatUp .8s cubic-bezier(.2,.8,.3,1) forwards;
-    will-change:transform,opacity;
-    contain:layout style paint;
-  }
-  @keyframes floatUp{
-    0%{transform:translate(-50%,-50%);opacity:0}
-    15%{opacity:1}
-    100%{transform:translate(-50%,-220%);opacity:0}
-  }
-
-  /* ── Energy ── */
-  .energy{
-    flex-shrink:0;
-    padding:14px 16px;
-    border-radius:var(--r);
-    background:var(--bg-1);
-    border:1px solid var(--border);
-    position:relative;
-  }
-  .energy-head{
-    display:flex;align-items:center;justify-content:space-between;
-    margin-bottom:10px;
-  }
-  .energy-title{
-    display:flex;align-items:center;gap:8px;
-    font-size:11px;font-weight:600;
-    letter-spacing:.08em;text-transform:uppercase;
-    color:var(--text-3);
-  }
-  .energy-title .ico{
-    width:20px;height:20px;border-radius:6px;
-    background:var(--bg-2);border:1px solid var(--border);
-    display:grid;place-items:center;
-    color:var(--text-2);flex-shrink:0;
-  }
+  /* Energy */
+  .energy{flex-shrink:0;padding:14px 16px;border-radius:var(--r);background:var(--bg-1);border:1px solid var(--border);position:relative}
+  .energy-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .energy-title{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3)}
+  .energy-title .ico{width:20px;height:20px;border-radius:6px;background:var(--bg-2);border:1px solid var(--border);display:grid;place-items:center;color:var(--text-2);flex-shrink:0}
   .energy-title .ico svg{width:11px;height:11px;display:block}
-
-  .energy-rate{
-    display:inline-flex;align-items:center;gap:5px;
-    font-size:11.5px;font-weight:500;
-    color:var(--text-3);
-    font-variant-numeric:tabular-nums;
-    letter-spacing:-.005em;
-  }
-  .energy-rate .pulse{
-    width:5px;height:5px;border-radius:50%;
-    background:var(--text-3);
-    animation:blip 1.8s ease-in-out infinite;
-  }
+  .energy-rate{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:500;color:var(--text-3);font-variant-numeric:tabular-nums;letter-spacing:-.005em}
+  .energy-rate .pulse{width:5px;height:5px;border-radius:50%;background:var(--text-3);animation:blip 1.8s ease-in-out infinite}
   .energy-rate.idle .pulse{background:var(--green);animation:none}
   @keyframes blip{0%,100%{opacity:.35}50%{opacity:1}}
-
-  .energy-num{
-    display:flex;align-items:baseline;gap:6px;
-    font-variant-numeric:tabular-nums;
-    margin-bottom:8px;line-height:1.1;
-  }
+  .energy-num{display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums;margin-bottom:8px;line-height:1.1}
   .energy-num b{font-size:26px;font-weight:600;letter-spacing:-.03em;color:var(--text)}
   .energy-num span{font-size:13px;font-weight:500;color:var(--text-3)}
-
-  .energy-track{
-    height:6px;background:rgba(255,255,255,.05);
-    border-radius:999px;overflow:hidden;position:relative;
-  }
-  .energy-fill{
-    height:100%;background:var(--text);
-    border-radius:999px;
-    transition:width .2s linear,background .25s ease;
-    will-change:width,background;
-    transform:translateZ(0);
-  }
+  .energy-track{height:6px;background:rgba(255,255,255,.05);border-radius:999px;overflow:hidden;position:relative}
+  .energy-fill{height:100%;background:var(--text);border-radius:999px;transition:width .2s linear,background .25s ease;will-change:width,background;transform:translateZ(0)}
   .energy-fill[data-state="mid"]{background:#a0a4ad}
   .energy-fill[data-state="low"]{background:var(--amber)}
   .energy-fill[data-state="empty"]{background:var(--red)}
-
-  .energy-foot{
-    display:flex;justify-content:space-between;align-items:center;
-    margin-top:9px;font-size:11.5px;font-weight:500;
-    color:var(--text-3);font-variant-numeric:tabular-nums;
-  }
+  .energy-foot{display:flex;justify-content:space-between;align-items:center;margin-top:9px;font-size:11.5px;font-weight:500;color:var(--text-3);font-variant-numeric:tabular-nums}
   .energy-foot .lvl{display:inline-flex;align-items:center;gap:5px}
   .energy-foot .lvl b{color:var(--text-2);font-weight:600}
-
   .energy.depleted .energy-track{animation:deny .3s}
-  @keyframes deny{
-    0%,100%{transform:translateX(0)}
-    25%{transform:translateX(-3px)}
-    75%{transform:translateX(3px)}
-  }
+  @keyframes deny{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
 
-  /* ── Sections ── */
-  .sect{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:14px 2px 8px;
-  }
-  .sect-title{
-    font-size:11px;font-weight:600;
-    letter-spacing:.08em;text-transform:uppercase;
-    color:var(--text-3);
-  }
-  .sect-meta{
-    font-size:12px;font-weight:500;color:var(--text-3);
-    font-variant-numeric:tabular-nums;
-  }
+  /* Sections */
+  .sect{display:flex;align-items:center;justify-content:space-between;padding:14px 2px 8px}
+  .sect-title{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3)}
+  .sect-meta{font-size:12px;font-weight:500;color:var(--text-3);font-variant-numeric:tabular-nums}
 
-  /* ── Lists ── */
-  .list{
-    display:flex;flex-direction:column;
-    border:1px solid var(--border);
-    border-radius:var(--r);
-    background:var(--bg-1);
-    overflow:hidden;
-  }
-
-  .row{
-    display:flex;align-items:center;justify-content:space-between;gap:12px;
-    padding:12px 14px;font-size:13px;
-  }
+  /* Lists */
+  .list{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:var(--r);background:var(--bg-1);overflow:hidden}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;font-size:13px}
   .row + .row{border-top:1px solid var(--border)}
   .row .k{color:var(--text-2);font-weight:400}
   .row .v{color:var(--text);font-weight:500;font-variant-numeric:tabular-nums}
 
-  /* ── Upgrade ── */
-  .up{
-    display:flex;align-items:center;gap:12px;
-    padding:13px 14px;position:relative;
-  }
+  /* Upgrade */
+  .up{display:flex;align-items:center;gap:12px;padding:13px 14px;position:relative}
   .up + .up{border-top:1px solid var(--border)}
-
-  .up-ico{
-    flex-shrink:0;width:36px;height:36px;
-    border-radius:9px;background:var(--bg-2);
-    border:1px solid var(--border);
-    display:grid;place-items:center;
-    color:var(--text-2);
-  }
+  .up-ico{flex-shrink:0;width:36px;height:36px;border-radius:9px;background:var(--bg-2);border:1px solid var(--border);display:grid;place-items:center;color:var(--text-2)}
   .up-ico svg{width:16px;height:16px;display:block}
-
   .up-body{flex:1;min-width:0}
-  .up-top{
-    display:flex;align-items:baseline;justify-content:space-between;gap:8px;
-    margin-bottom:2px;
-  }
+  .up-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:2px}
   .up-name{font-size:13.5px;font-weight:500;color:var(--text);letter-spacing:-.005em;line-height:1.3}
-  .up-lv{
-    font-size:11px;font-weight:500;color:var(--text-3);
-    font-variant-numeric:tabular-nums;flex-shrink:0;
-  }
-  .up-meta{
-    font-size:12px;color:var(--text-3);font-weight:400;
-    font-variant-numeric:tabular-nums;
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  }
+  .up-lv{font-size:11px;font-weight:500;color:var(--text-3);font-variant-numeric:tabular-nums;flex-shrink:0}
+  .up-meta{font-size:12px;color:var(--text-3);font-weight:400;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .up-meta .next{color:var(--text-2)}
   .up-meta .arr{color:var(--text-4);padding:0 4px}
 
-  /* ── Buttons ── */
-  .btn{
-    flex-shrink:0;height:34px;padding:0 13px;
-    border-radius:var(--r-sm);
-    border:1px solid var(--border-2);
-    background:rgba(255,255,255,.03);
-    color:var(--text);
-    font-family:inherit;font-size:12.5px;font-weight:500;
-    letter-spacing:-.005em;font-variant-numeric:tabular-nums;
-    cursor:pointer;
-    display:inline-flex;align-items:center;justify-content:center;gap:5px;
-    transition:background .12s,border-color .12s,color .12s,transform .08s;
-    -webkit-appearance:none;appearance:none;
-    white-space:nowrap;user-select:none;
-  }
+  /* Buttons */
+  .btn{flex-shrink:0;height:34px;padding:0 13px;border-radius:var(--r-sm);border:1px solid var(--border-2);background:rgba(255,255,255,.03);color:var(--text);font-family:inherit;font-size:12.5px;font-weight:500;letter-spacing:-.005em;font-variant-numeric:tabular-nums;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px;transition:background .12s,border-color .12s,color .12s,transform .08s;-webkit-appearance:none;appearance:none;white-space:nowrap;user-select:none}
   .btn:disabled{color:var(--text-3);cursor:not-allowed;background:transparent;border-color:var(--border)}
   .btn.buy{background:var(--accent);border-color:var(--accent);color:#fff}
   .btn.buy:active{background:var(--accent-2);border-color:var(--accent-2);transform:scale(.97)}
@@ -367,161 +139,53 @@
   .btn.danger.armed{background:var(--red);border-color:var(--red);color:#fff}
   .btn.tiny{height:30px;padding:0 10px;font-size:12px}
 
-  /* ── Bonus / Ref ── */
-  .bonus{
-    padding:20px 18px;border-radius:var(--r);
-    background:var(--bg-1);border:1px solid var(--border);
-    margin-bottom:12px;position:relative;overflow:hidden;
-  }
-  .bonus-val{
-    font-size:34px;font-weight:600;letter-spacing:-.03em;
-    line-height:1.1;font-variant-numeric:tabular-nums;color:var(--text);
-  }
+  /* Bonus / Ref */
+  .bonus{padding:20px 18px;border-radius:var(--r);background:var(--bg-1);border:1px solid var(--border);margin-bottom:12px;position:relative;overflow:hidden}
+  .bonus-val{font-size:34px;font-weight:600;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--text)}
   .bonus-lbl{font-size:12.5px;color:var(--text-3);font-weight:500;margin-top:4px;letter-spacing:-.005em}
-
   .ref{padding:14px;border-radius:var(--r);background:var(--bg-1);border:1px solid var(--border);margin-bottom:12px}
-  .ref-lbl{
-    font-size:11px;font-weight:600;letter-spacing:.08em;
-    text-transform:uppercase;color:var(--text-3);margin-bottom:8px;
-  }
-  .ref-link{
-    font-family:ui-monospace,'SF Mono',Menlo,monospace;
-    font-size:12px;color:var(--text-2);
-    padding:9px 11px;background:var(--bg);
-    border:1px solid var(--border);border-radius:var(--r-sm);
-    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-    margin-bottom:10px;font-variant-numeric:tabular-nums;
-  }
+  .ref-lbl{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px}
+  .ref-link{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12px;color:var(--text-2);padding:9px 11px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:10px;font-variant-numeric:tabular-nums}
   .ref-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-
-  .empty{
-    padding:32px 20px;text-align:center;
-    display:flex;flex-direction:column;align-items:center;gap:8px;
-  }
-  .empty-ico{
-    width:36px;height:36px;border-radius:10px;
-    background:var(--bg-2);border:1px solid var(--border);
-    display:grid;place-items:center;
-    color:var(--text-3);margin-bottom:2px;
-  }
+  .empty{padding:32px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .empty-ico{width:36px;height:36px;border-radius:10px;background:var(--bg-2);border:1px solid var(--border);display:grid;place-items:center;color:var(--text-3);margin-bottom:2px}
   .empty-ico svg{width:16px;height:16px;display:block}
   .empty-title{font-size:13.5px;font-weight:500;color:var(--text-2);letter-spacing:-.005em}
   .empty-desc{font-size:12px;color:var(--text-3);max-width:240px;line-height:1.5}
 
-  /* ── Profile ── */
-  .profile{
-    display:flex;align-items:center;gap:14px;
-    padding:16px;border-radius:var(--r);
-    background:var(--bg-1);border:1px solid var(--border);
-    margin-bottom:12px;
-  }
-  .avatar{
-    flex-shrink:0;width:56px;height:56px;
-    border-radius:14px;background:var(--bg-2);
-    border:1px solid var(--border-2);
-    display:grid;place-items:center;
-    font-size:20px;font-weight:600;color:var(--text-2);
-    overflow:hidden;letter-spacing:-.02em;
-  }
+  /* Profile */
+  .profile{display:flex;align-items:center;gap:14px;padding:16px;border-radius:var(--r);background:var(--bg-1);border:1px solid var(--border);margin-bottom:12px}
+  .avatar{flex-shrink:0;width:56px;height:56px;border-radius:14px;background:var(--bg-2);border:1px solid var(--border-2);display:grid;place-items:center;font-size:20px;font-weight:600;color:var(--text-2);overflow:hidden;letter-spacing:-.02em}
   .avatar img{width:100%;height:100%;object-fit:cover;display:block}
   .profile-info{flex:1;min-width:0}
-  .profile-name{
-    font-size:15px;font-weight:600;color:var(--text);
-    letter-spacing:-.015em;line-height:1.3;
-    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  }
-  .profile-handle{
-    font-size:12.5px;color:var(--text-3);font-weight:400;margin-top:1px;
-    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  }
-
-  .stats{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
-    background:var(--border);border:1px solid var(--border);
-    border-radius:var(--r);overflow:hidden;margin-bottom:12px;
-  }
-  .stat{
-    background:var(--bg-1);padding:14px 8px;
-    display:flex;flex-direction:column;align-items:center;gap:3px;
-    text-align:center;
-  }
-  .stat-v{
-    font-size:16px;font-weight:600;color:var(--text);
-    letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2;
-  }
+  .profile-name{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.015em;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .profile-handle{font-size:12.5px;color:var(--text-3);font-weight:400;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px}
+  .stat{background:var(--bg-1);padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center}
+  .stat-v{font-size:16px;font-weight:600;color:var(--text);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2}
   .stat-l{font-size:10.5px;font-weight:500;color:var(--text-3);letter-spacing:.02em}
-
   .version{text-align:center;font-size:11px;color:var(--text-4);padding:24px 0 8px;font-weight:500}
 
-  /* ── Admin ── */
-  .admin-tool{
-    display:flex;flex-direction:column;gap:8px;
-    padding:12px 14px;
-  }
+  /* Admin */
+  .admin-tool{display:flex;flex-direction:column;gap:8px;padding:12px 14px}
   .admin-tool + .admin-tool{border-top:1px solid var(--border)}
-  .admin-tool-lbl{
-    font-size:12.5px;font-weight:500;color:var(--text-2);
-    letter-spacing:-.005em;
-  }
-  .admin-tool-lbl .hint{
-    font-size:11.5px;color:var(--text-4);font-weight:400;
-    margin-left:6px;
-  }
+  .admin-tool-lbl{font-size:12.5px;font-weight:500;color:var(--text-2);letter-spacing:-.005em}
+  .admin-tool-lbl .hint{font-size:11.5px;color:var(--text-4);font-weight:400;margin-left:6px}
   .admin-tool-row{display:flex;gap:6px;align-items:center}
   .admin-tool-row .btn{flex:1}
-  .admin-input{
-    flex:1;min-width:0;height:34px;padding:0 11px;
-    border-radius:var(--r-sm);
-    background:var(--bg);border:1px solid var(--border);
-    color:var(--text);font-family:inherit;font-size:13px;
-    font-variant-numeric:tabular-nums;outline:none;
-    transition:border-color .12s;
-    -webkit-appearance:none;appearance:none;
-  }
+  .admin-input{flex:1;min-width:0;height:34px;padding:0 11px;border-radius:var(--r-sm);background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:13px;font-variant-numeric:tabular-nums;outline:none;transition:border-color .12s;-webkit-appearance:none;appearance:none}
   .admin-input:focus{border-color:var(--border-3)}
   .admin-input::placeholder{color:var(--text-4)}
-  .admin-input::-webkit-outer-spin-button,
-  .admin-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-
-  .adm-ban{
-    display:flex;align-items:center;gap:10px;
-    padding:10px 14px;
-  }
+  .admin-input::-webkit-outer-spin-button,.admin-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .adm-ban{display:flex;align-items:center;gap:10px;padding:10px 14px}
   .adm-ban + .adm-ban{border-top:1px solid var(--border)}
-  .adm-ban-id{
-    flex:1;min-width:0;
-    font-family:ui-monospace,'SF Mono',Menlo,monospace;
-    font-size:12px;color:var(--text-2);
-    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  }
-  .adm-ban-reason{
-    font-size:11px;color:var(--text-4);
-    font-weight:400;margin-left:6px;
-  }
+  .adm-ban-id{flex:1;min-width:0;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12px;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .adm-ban-reason{font-size:11px;color:var(--text-4);font-weight:400;margin-left:6px}
 
-  /* ── Nav ── */
-  .nav{
-    flex-shrink:0;
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:2px;
-    padding:6px 8px calc(env(safe-area-inset-bottom) + 6px);
-    border-top:1px solid var(--border);
-    background:var(--bg);
-  }
+  /* Nav */
+  .nav{flex-shrink:0;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:6px 8px calc(env(safe-area-inset-bottom) + 6px);border-top:1px solid var(--border);background:var(--bg)}
   .nav.admin{grid-template-columns:repeat(5,1fr)}
-
-  .nav-btn{
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:3px;padding:8px 4px;
-    background:transparent;border:none;
-    color:var(--text-3);font-family:inherit;
-    font-size:10px;font-weight:500;letter-spacing:.02em;
-    cursor:pointer;border-radius:8px;
-    transition:color .12s;
-    -webkit-appearance:none;appearance:none;
-    -webkit-tap-highlight-color:transparent;
-  }
+  .nav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 4px;background:transparent;border:none;color:var(--text-3);font-family:inherit;font-size:10px;font-weight:500;letter-spacing:.02em;cursor:pointer;border-radius:8px;transition:color .12s;-webkit-appearance:none;appearance:none;-webkit-tap-highlight-color:transparent}
   .nav-btn svg{width:20px;height:20px;display:block}
   .nav-btn.active{color:var(--text)}
   .nav-btn:active{color:var(--text-2)}
@@ -530,69 +194,18 @@
   .nav-btn[data-tab="admin"]{display:none}
   .nav.admin .nav-btn[data-tab="admin"]{display:flex}
 
-  /* ── Toast ── */
-  .toast{
-    position:fixed;left:50%;
-    bottom:calc(env(safe-area-inset-bottom) + 78px);
-    transform:translate(-50%,12px);
-    padding:9px 14px;border-radius:8px;
-    background:var(--bg-2);border:1px solid var(--border-2);
-    color:var(--text);font-size:12.5px;font-weight:500;
-    letter-spacing:-.005em;
-    box-shadow:0 8px 24px rgba(0,0,0,.5);
-    opacity:0;pointer-events:none;
-    transition:opacity .18s ease,transform .18s cubic-bezier(.34,1.4,.64,1);
-    z-index:10000;max-width:calc(100vw - 32px);
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-    font-variant-numeric:tabular-nums;
-  }
+  /* Toast */
+  .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 78px);transform:translate(-50%,12px);padding:9px 14px;border-radius:8px;background:var(--bg-2);border:1px solid var(--border-2);color:var(--text);font-size:12.5px;font-weight:500;letter-spacing:-.005em;box-shadow:0 8px 24px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s cubic-bezier(.34,1.4,.64,1);z-index:10000;max-width:calc(100vw - 32px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
   .toast.show{opacity:1;transform:translate(-50%,0)}
 
-  /* ── Ban screen ── */
-  .ban-screen{
-    position:fixed;inset:0;z-index:99999;
-    background:var(--bg);
-    display:none;
-    align-items:center;justify-content:center;
-    padding:24px;
-  }
+  /* Ban screen */
+  .ban-screen{position:fixed;inset:0;z-index:99999;background:var(--bg);display:none;align-items:center;justify-content:center;padding:24px}
   .ban-screen.show{display:flex}
-
-  .ban-card{
-    max-width:340px;width:100%;
-    padding:28px 24px;
-    border-radius:14px;
-    background:var(--bg-1);
-    border:1px solid var(--border-2);
-    text-align:center;
-  }
-  .ban-icon{
-    width:52px;height:52px;
-    border-radius:14px;
-    background:rgba(229,72,77,.12);
-    border:1px solid rgba(229,72,77,.3);
-    color:var(--red);
-    display:grid;place-items:center;
-    margin:0 auto 16px;
-    font-size:24px;
-  }
-  .ban-title{
-    font-size:16px;font-weight:600;
-    color:var(--text);letter-spacing:-.015em;
-    margin-bottom:8px;
-  }
-  .ban-desc{
-    font-size:13px;color:var(--text-2);
-    line-height:1.5;margin-bottom:16px;
-  }
-  .ban-meta{
-    font-size:12px;color:var(--text-3);
-    font-family:ui-monospace,'SF Mono',Menlo,monospace;
-    padding:8px 10px;background:var(--bg);
-    border:1px solid var(--border);
-    border-radius:var(--r-sm);
-    font-variant-numeric:tabular-nums;
-  }
+  .ban-card{max-width:340px;width:100%;padding:28px 24px;border-radius:14px;background:var(--bg-1);border:1px solid var(--border-2);text-align:center}
+  .ban-icon{width:52px;height:52px;border-radius:14px;background:rgba(229,72,77,.12);border:1px solid rgba(229,72,77,.3);color:var(--red);display:grid;place-items:center;margin:0 auto 16px;font-size:24px}
+  .ban-title{font-size:16px;font-weight:600;color:var(--text);letter-spacing:-.015em;margin-bottom:8px}
+  .ban-desc{font-size:13px;color:var(--text-2);line-height:1.5;margin-bottom:16px}
+  .ban-meta{font-size:12px;color:var(--text-3);font-family:ui-monospace,'SF Mono',Menlo,monospace;padding:8px 10px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -613,7 +226,7 @@
 
   <main class="content">
 
-    <!-- ═══ TAP ═══ -->
+    <!-- TAP -->
     <section class="panel active" data-tab="tap">
       <div class="score">
         <div class="balance">
@@ -649,9 +262,7 @@
         <div class="energy-head">
           <div class="energy-title">
             <span class="ico">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
-              </svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
             </span>
             <span>Энергия</span>
           </div>
@@ -677,7 +288,7 @@
       </div>
     </section>
 
-    <!-- ═══ UPGRADES ═══ -->
+    <!-- UPGRADES -->
     <section class="panel" data-tab="upgrades">
       <div class="panel-head">
         <div class="panel-title">Улучшения</div>
@@ -686,7 +297,7 @@
       <div class="list" id="upList"></div>
     </section>
 
-    <!-- ═══ FRIENDS ═══ -->
+    <!-- FRIENDS -->
     <section class="panel" data-tab="friends">
       <div class="panel-head">
         <div class="panel-title">Друзья</div>
@@ -728,7 +339,7 @@
       </div>
     </section>
 
-    <!-- ═══ PROFILE ═══ -->
+    <!-- PROFILE -->
     <section class="panel" data-tab="profile">
       <div class="panel-head">
         <div class="panel-title">Профиль</div>
@@ -743,22 +354,10 @@
       </div>
 
       <div class="stats">
-        <div class="stat">
-          <div class="stat-v" id="statEarned">0</div>
-          <div class="stat-l">всего</div>
-        </div>
-        <div class="stat">
-          <div class="stat-v" id="statTaps">0</div>
-          <div class="stat-l">тапов</div>
-        </div>
-        <div class="stat">
-          <div class="stat-v" id="statLvl">0</div>
-          <div class="stat-l">уровней</div>
-        </div>
-        <div class="stat">
-          <div class="stat-v" id="statFriends">0</div>
-          <div class="stat-l">друзей</div>
-        </div>
+        <div class="stat"><div class="stat-v" id="statEarned">0</div><div class="stat-l">всего</div></div>
+        <div class="stat"><div class="stat-v" id="statTaps">0</div><div class="stat-l">тапов</div></div>
+        <div class="stat"><div class="stat-v" id="statLvl">0</div><div class="stat-l">уровней</div></div>
+        <div class="stat"><div class="stat-v" id="statFriends">0</div><div class="stat-l">друзей</div></div>
       </div>
 
       <div class="sect"><span class="sect-title">Статистика</span></div>
@@ -773,10 +372,10 @@
       <div class="sect"><span class="sect-title">Управление</span></div>
       <button class="btn danger block" type="button" id="resetBtn">Сбросить прогресс</button>
 
-      <div class="version">Cat Kombat v1.1 · сделано с 🐱</div>
+      <div class="version">Cat Kombat v1.2 · сделано с 🐱</div>
     </section>
 
-    <!-- ═══ ADMIN ═══ -->
+    <!-- ADMIN -->
     <section class="panel" data-tab="admin">
       <div class="panel-head">
         <div class="panel-title">Админка</div>
@@ -871,41 +470,23 @@
 
   <nav class="nav" id="nav">
     <button class="nav-btn active" data-tab="tap" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="8"/>
-        <circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none"/></svg>
       <span>Тап</span>
     </button>
     <button class="nav-btn" data-tab="upgrades" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 19V5"/>
-        <path d="M5 12l7-7 7 7"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
       <span>Апгрейд</span>
     </button>
     <button class="nav-btn" data-tab="friends" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="9" cy="8" r="3.5"/>
-        <path d="M2.5 20a6.5 6.5 0 0 1 13 0"/>
-        <path d="M16 5.5a3 3 0 0 1 0 5.5"/>
-        <path d="M15 13.5a5 5 0 0 1 6.5 5"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 5.5a3 3 0 0 1 0 5.5"/><path d="M15 13.5a5 5 0 0 1 6.5 5"/></svg>
       <span>Друзья</span>
     </button>
     <button class="nav-btn" data-tab="profile" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="8" r="4"/>
-        <path d="M4 21a8 8 0 0 1 16 0"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
       <span>Профиль</span>
     </button>
     <button class="nav-btn admin" data-tab="admin" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z"/>
-        <path d="M12 8v4"/>
-        <circle cx="12" cy="15" r="0.8" fill="currentColor"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z"/><path d="M12 8v4"/><circle cx="12" cy="15" r="0.8" fill="currentColor"/></svg>
       <span>Админ</span>
     </button>
   </nav>
@@ -914,13 +495,13 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- ═══ BAN SCREEN ═══ -->
 <div class="ban-screen" id="banScreen">
   <div class="ban-card">
     <div class="ban-icon">🚫</div>
     <div class="ban-title">Доступ заблокирован</div>
     <div class="ban-desc">Обнаружена подозрительная активность. Если считаешь это ошибкой — напиши в поддержку.</div>
     <div class="ban-meta">ID: <span id="banId">—</span></div>
+    <button class="btn" type="button" id="emergencyUnban" style="margin-top:16px;display:none">Разбанить (admin)</button>
   </div>
 </div>
 
@@ -931,18 +512,18 @@
 /* ═══════════════════════════════════════════
    CONFIG
    ═══════════════════════════════════════════ */
-const BOT_USERNAME = 'cat_combat_tapbot';        // ← замени на username бота
-const ADMIN_IDS    = [8648799615];              // ← сюда свой Telegram ID (числа)
+const BOT_USERNAME = 'cat_combat_tapbot';        // ← замени
+const ADMIN_IDS    = [8324726068];              // ← свой Telegram ID
 
-const KEY       = 'cat_kombat_v5';
-const BAN_KEY   = 'cat_kombat_bans_v2';
+const KEY       = 'cat_kombat_v6';
+const BAN_KEY   = 'cat_kombat_bans_v6';
 const SIG_SALT  = 'ck_secret_2024_dont_read';
 
-const REGEN_PER_MIN = 20;                      // энергия в минуту
-const REGEN_PER_SEC = REGEN_PER_MIN / 60;      // ≈0.333/сек
+const REGEN_PER_MIN = 20;
+const REGEN_PER_SEC = REGEN_PER_MIN / 60;
 
-const TAP_CAP       = 25;                      // макс тапов в секунду
-const MAX_STRIKES   = 3;                       // страйков до автобана
+const TAP_CAP       = 25;
+const MAX_STRIKES   = 3;
 const OFFLINE_CAP   = 3 * 3600_000;
 const REF_BONUS     = 5000;
 const MAX_FLOAT     = 10;
@@ -978,17 +559,13 @@ const haptic = s => {
 };
 const notify = t => { try { tg?.HapticFeedback?.notificationOccurred?.(t); } catch {} };
 
-function tgUser() {
-  return tg?.initDataUnsafe?.user || null;
-}
-function userId() {
-  return tgUser()?.id || 'guest';
-}
-function isAdmin() {
+const tgUser = () => tg?.initDataUnsafe?.user || null;
+const userId = () => tgUser()?.id || 'guest';
+const isAdmin = () => {
   const u = tgUser();
   if (!u) return false;
   return ADMIN_IDS.map(String).includes(String(u.id));
-}
+};
 
 /* ═══════════════════════════════════════════
    BAN SYSTEM
@@ -1025,6 +602,16 @@ function showBanScreen() {
   document.getElementById('banId').textContent = userId();
   document.getElementById('banScreen').classList.add('show');
   document.getElementById('app').style.display = 'none';
+
+  const btn = document.getElementById('emergencyUnban');
+  if (isAdmin()) {
+    btn.style.display = 'inline-flex';
+    btn.onclick = () => {
+      unbanUser(userId());
+      toast('Разбан выполнен');
+      setTimeout(() => location.reload(), 250);
+    };
+  }
 }
 
 /* ═══════════════════════════════════════════
@@ -1045,15 +632,17 @@ const fresh = () => ({
 });
 
 let S = fresh();
+let isResetting = false;
 
 const tapPower  = () => 1 + S.upgrades.tap;
+const tapCost   = () => Math.max(1, Math.floor(Math.sqrt(tapPower())));
 const maxEnergy = () => 1000 + S.upgrades.energy * 500;
 const passiveHr = () => S.upgrades.passive * 100;
 const costOf    = id => Math.floor(DEFS[id].base * DEFS[id].mult ** S.upgrades[id]);
 const totalLvl  = () => S.upgrades.tap + S.upgrades.energy + S.upgrades.passive;
 
 /* ═══════════════════════════════════════════
-   SIGNATURE (anti-tamper)
+   SIGNATURE
    ═══════════════════════════════════════════ */
 function computeSig(obj) {
   const clone = Object.assign({}, obj);
@@ -1108,11 +697,13 @@ function rank() {
    ═══════════════════════════════════════════ */
 let saveTimer = 0;
 const scheduleSave = () => {
+  if (isResetting) return;
   if (saveTimer) return;
   saveTimer = setTimeout(() => { saveTimer = 0; save(); }, 1200);
 };
 
 function save() {
+  if (isResetting) return;
   S.lastSave = Date.now();
   S._sig = computeSig(S);
   try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {}
@@ -1153,6 +744,45 @@ function applyOffline() {
 }
 
 /* ═══════════════════════════════════════════
+   HARD RESET
+   ═══════════════════════════════════════════ */
+function hardReset({ clearBans = false } = {}) {
+  isResetting = true;
+
+  try {
+    localStorage.removeItem(KEY);
+    if (clearBans) localStorage.removeItem(BAN_KEY);
+  } catch {}
+
+  // сброс state в памяти
+  S = fresh();
+  S.energy = maxEnergy();
+  S.lastUpdate = Date.now();
+  S.lastSave = Date.now();
+
+  // сброс кэшей отрисовки
+  last = {
+    coins:-1, total:-1, energy:-1, maxE:-1, fillPct:-1,
+    fillState:'', hint:'', lvlE:-1, passive:-1, rateIdle:null
+  };
+  tapLog = [];
+  activeFloats = 0;
+
+  // сброс UI состояний кнопок
+  resetArmed = false;
+  if (el.resetBtn) {
+    el.resetBtn.classList.remove('armed');
+    el.resetBtn.textContent = 'Сбросить прогресс';
+  }
+
+  // перерисовка
+  paintAll();
+
+  // разрешаем автосейв
+  setTimeout(() => { isResetting = false; }, 200);
+}
+
+/* ═══════════════════════════════════════════
    ANTI-CHEAT
    ═══════════════════════════════════════════ */
 let tapLog = [];
@@ -1169,7 +799,8 @@ function tapAllowed() {
 
 let strikeToastCooldown = 0;
 function registerStrike(reason) {
-  if (isAdmin()) return; // админ неприкосновенен
+  if (isAdmin()) return;
+  if (isResetting) return;
 
   S.cheatStrikes = (S.cheatStrikes || 0) + 1;
   console.warn('[anticheat]', reason, '→ strikes:', S.cheatStrikes);
@@ -1291,7 +922,9 @@ let catTimer = 0;
 function doTap(x, y) {
   if (!tapAllowed()) return;
 
-  if (S.energy < 1) {
+  const energyCost = tapCost();
+
+  if (S.energy < energyCost) {
     el.energyBox.classList.remove('depleted');
     void el.energyBox.offsetWidth;
     el.energyBox.classList.add('depleted');
@@ -1300,7 +933,7 @@ function doTap(x, y) {
   }
 
   const gain = tapPower();
-  S.energy -= 1;
+  S.energy -= energyCost;
   S.coins += gain;
   S.totalEarned += gain;
   S.taps += 1;
@@ -1338,7 +971,11 @@ if (!window.PointerEvent) {
 const cards = {};
 
 function effectText(id, lv) {
-  if (id === 'tap')     return '+' + (1 + lv) + ' за тап';
+  if (id === 'tap') {
+    const p = 1 + lv;
+    const c = Math.max(1, Math.floor(Math.sqrt(p)));
+    return `+${p} за тап · −${c} ⚡`;
+  }
   if (id === 'energy')  return (1000 + lv * 500).toLocaleString('ru-RU') + ' макс.';
   if (id === 'passive') return (lv * 100) + '/час';
   return '';
@@ -1427,12 +1064,8 @@ function buy(id) {
 /* ═══════════════════════════════════════════
    REFERRAL
    ═══════════════════════════════════════════ */
-function refLink() {
-  return `https://t.me/${BOT_USERNAME}?start=ref_${userId()}`;
-}
-function shortRefLink() {
-  return `t.me/${BOT_USERNAME}?start=ref_${userId()}`;
-}
+const refLink = () => `https://t.me/${BOT_USERNAME}?start=ref_${userId()}`;
+const shortRefLink = () => `t.me/${BOT_USERNAME}?start=ref_${userId()}`;
 
 function paintRef() {
   el.refLink.textContent = shortRefLink();
@@ -1518,7 +1151,7 @@ function paintProfile() {
 }
 
 /* ═══════════════════════════════════════════
-   RESET (profile)
+   RESET
    ═══════════════════════════════════════════ */
 let resetArmed = false;
 let resetTimer = 0;
@@ -1537,10 +1170,11 @@ el.resetBtn.addEventListener('click', () => {
     }, 3000);
     return;
   }
+
   clearTimeout(resetTimer);
-  try { localStorage.removeItem(KEY); } catch {}
+  hardReset({ clearBans: false });
   notify('success');
-  setTimeout(() => location.reload(), 150);
+  toast('Прогресс сброшен');
 });
 
 /* ═══════════════════════════════════════════
@@ -1555,7 +1189,6 @@ function buildAdmin() {
 
   $('admMyId').textContent = userId();
 
-  // ── Resources ──
   $('admCoinsAdd').addEventListener('click', () => {
     const v = parseInt($('admCoinsInput').value, 10);
     if (!Number.isFinite(v) || v <= 0) return toast('Введи число');
@@ -1610,7 +1243,6 @@ function buildAdmin() {
     toast(`Пассив → ур. ${v}`);
   });
 
-  // ── Moderation ──
   $('admBanBtn').addEventListener('click', () => {
     const id = String($('admBanInput').value || '').trim();
     if (!id) return toast('Введи ID');
@@ -1621,11 +1253,10 @@ function buildAdmin() {
     toast(`ID ${id} забанен`);
   });
 
-  // ── Debug ──
   $('admStrikeAdd').addEventListener('click', () => {
     S.cheatStrikes = (S.cheatStrikes || 0) + 1;
     if (S.cheatStrikes >= MAX_STRIKES) {
-      toast('Страйков максимум — включится автобан');
+      toast('Страйков максимум');
       S.cheatStrikes = MAX_STRIKES - 1;
     } else {
       toast(`Страйков: ${S.cheatStrikes}`);
@@ -1639,8 +1270,7 @@ function buildAdmin() {
     toast('Страйки сброшены');
   });
 
-  let banSelfArmed = false;
-  let banSelfTimer = 0;
+  let banSelfArmed = false, banSelfTimer = 0;
   $('admBanSelf').addEventListener('click', (e) => {
     if (!banSelfArmed) {
       banSelfArmed = true;
@@ -1659,8 +1289,7 @@ function buildAdmin() {
     showBanScreen();
   });
 
-  let wipeArmed = false;
-  let wipeTimer = 0;
+  let wipeArmed = false, wipeTimer = 0;
   $('admWipe').addEventListener('click', (e) => {
     if (!wipeArmed) {
       wipeArmed = true;
@@ -1675,12 +1304,12 @@ function buildAdmin() {
       return;
     }
     clearTimeout(wipeTimer);
-    try {
-      localStorage.removeItem(KEY);
-      localStorage.removeItem(BAN_KEY);
-    } catch {}
+    e.currentTarget.textContent = 'стереть всё';
+    e.currentTarget.classList.remove('armed');
+    hardReset({ clearBans: true });
+    paintBanList();
     notify('success');
-    setTimeout(() => location.reload(), 150);
+    toast('Всё стёрто');
   });
 
   paintBanList();
@@ -1691,7 +1320,8 @@ function paintAdmin() {
   if (!isAdmin()) return;
   const st = $('admStrikes');
   if (st) st.textContent = (S.cheatStrikes || 0) + ' / ' + MAX_STRIKES;
-  $('admMyId').textContent = userId();
+  const myId = $('admMyId');
+  if (myId) myId.textContent = userId();
 }
 
 function paintBanList() {
@@ -1699,7 +1329,8 @@ function paintBanList() {
   if (!list) return;
 
   const banned = getBanned();
-  $('admBanCount').textContent = banned.length;
+  const cnt = $('admBanCount');
+  if (cnt) cnt.textContent = banned.length;
 
   if (banned.length === 0) {
     list.innerHTML = `
@@ -1801,6 +1432,7 @@ let lastFrame = 0;
 function loop(ts) {
   requestAnimationFrame(loop);
   if (document.hidden) return;
+  if (isResetting) return;
   if (ts - lastFrame < 100) return;
   lastFrame = ts;
 
@@ -1809,26 +1441,11 @@ function loop(ts) {
   S.lastUpdate = now;
   if (dt <= 0 || dt > 60_000) return;
 
-  // ── Anti-cheat: coin spike detection ──
-  const expectedMax =
-    tapPower() * TAP_CAP * (dt / 1000) +     // макс. от тапов
-    passiveHr() * dt / 3_600_000 +           // пассив
-    1;                                        // погрешность
-
-  const before = last.coins;
-  // считаем сколько прибавилось за этот тик
-  // (S.coins ещё не изменился, сравним с предыдущим рендером)
-  if (before >= 0 && S.coins - before > expectedMax * 50) {
-    registerStrike('coin spike');
-  }
-
-  // ── Energy regen ──
   if (S.energy < maxEnergy()) {
     S.energy = Math.min(maxEnergy(), S.energy + REGEN_PER_SEC * dt / 1000);
     paintEnergy();
   }
 
-  // ── Passive income ──
   const p = passiveHr();
   if (p > 0) {
     const add = p * dt / 3_600_000;
@@ -1844,25 +1461,33 @@ requestAnimationFrame(loop);
 /* ═══════════════════════════════════════════
    SAVE / VISIBILITY
    ═══════════════════════════════════════════ */
-setInterval(save, 5000);
+setInterval(() => { if (!isResetting) save(); }, 5000);
+
 document.addEventListener('visibilitychange', () => {
+  if (isResetting) return;
   if (document.hidden) save();
   else { applyOffline(); paintAll(); }
 });
-window.addEventListener('beforeunload', save);
+
+window.addEventListener('beforeunload', () => { if (!isResetting) save(); });
 
 /* ═══════════════════════════════════════════
    BOOT
    ═══════════════════════════════════════════ */
 (function boot() {
 
-  // 1. Проверка бана — самая первая
+  // авто-разбан админа
+  if (isAdmin() && isBanned(userId())) {
+    unbanUser(userId());
+    console.warn('[unban] admin auto-unbanned');
+  }
+
+  // проверка бана
   if (isBanned(userId())) {
     showBanScreen();
     return;
   }
 
-  // 2. Загрузка состояния
   const had = load();
 
   if (had) {
@@ -1877,7 +1502,6 @@ window.addEventListener('beforeunload', save);
     S.lastUpdate = Date.now();
   }
 
-  // 3. Обработка входящего реферала
   const sp = tg?.initDataUnsafe?.start_param;
   if (sp && sp.startsWith('ref_') && !S.referredBy) {
     const referrerId = sp.slice(4);
@@ -1890,7 +1514,6 @@ window.addEventListener('beforeunload', save);
     }
   }
 
-  // 4. Рендер
   buildUps();
   buildProfile();
   buildAdmin();
